@@ -1,19 +1,13 @@
-import { useState, useRef, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, Search, ShoppingCart, Heart } from 'lucide-react';
+import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { Menu, X, ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from './ThemeToggle';
-import { useToast } from '@/hooks/use-toast';
-import { Input } from '@/components/ui/input';
 import { useCart } from '@/context/CartContext';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const searchInputRef = useRef<HTMLInputElement>(null);
   const location = useLocation();
-  const navigate = useNavigate();
   const { totalItems, setDrawerOpen } = useCart();
 
   const isActive = (path: string) => location.pathname === path;
@@ -24,21 +18,7 @@ const Header = () => {
     { name: 'Contact', path: '/contact' },
   ];
 
-  useEffect(() => {
-    if (isSearchOpen && searchInputRef.current) {
-      searchInputRef.current.focus();
-    }
-  }, [isSearchOpen]);
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/shop?search=${encodeURIComponent(searchQuery)}`);
-      setIsSearchOpen(false);
-      setIsMenuOpen(false);
-      setSearchQuery('');
-    }
-  };
 
   // handleCartClick removed in favor of CartDrawer
 
@@ -58,9 +38,8 @@ const Header = () => {
               <Link
                 key={item.name}
                 to={item.path}
-                className={`text-sm font-medium transition-colors hover:text-primary relative ${
-                  isActive(item.path) ? 'text-primary' : 'text-foreground'
-                }`}
+                className={`text-sm font-medium transition-colors hover:text-primary relative ${isActive(item.path) ? 'text-primary' : 'text-foreground'
+                  }`}
               >
                 {item.name}
                 {isActive(item.path) && (
@@ -72,32 +51,11 @@ const Header = () => {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center space-x-2">
-            <div className={`flex items-center transition-all duration-300 overflow-hidden ${isSearchOpen ? 'w-64' : 'w-0'}`}>
-              <form onSubmit={handleSearch} className="w-full px-2">
-                <Input
-                  ref={searchInputRef}
-                  type="text"
-                  placeholder="Search products..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="h-9 rounded-full bg-muted/50 border-border/40 text-sm focus-visible:ring-primary/20"
-                  onBlur={() => !searchQuery && setIsSearchOpen(false)}
-                />
-              </form>
-            </div>
-            
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className={`text-muted-foreground hover:text-primary rounded-full transition-colors ${isSearchOpen ? 'bg-muted/50 text-primary' : ''}`}
-              onClick={() => setIsSearchOpen(!isSearchOpen)}
-            >
-              <Search className="w-4 h-4" />
-            </Button>
-            
-            <Button 
-              variant="ghost" 
-              size="sm" 
+
+
+            <Button
+              variant="ghost"
+              size="sm"
               className="text-muted-foreground hover:text-primary rounded-full relative"
               onClick={() => setDrawerOpen(true)}
             >
@@ -108,15 +66,15 @@ const Header = () => {
                 </span>
               )}
             </Button>
-            
+
             <ThemeToggle />
           </div>
 
           {/* Mobile Actions */}
           <div className="md:hidden flex items-center space-x-1">
-            <Button 
-              variant="ghost" 
-              size="sm" 
+            <Button
+              variant="ghost"
+              size="sm"
               className="text-foreground relative rounded-full w-9 h-9 flex items-center justify-center"
               onClick={() => setDrawerOpen(true)}
             >
@@ -147,27 +105,17 @@ const Header = () => {
                 <Link
                   key={item.name}
                   to={item.path}
-                  className={`text-lg font-semibold transition-colors hover:text-primary px-2 py-1 ${
-                    isActive(item.path) ? 'text-primary' : 'text-foreground'
-                  }`}
+                  className={`text-lg font-semibold transition-colors hover:text-primary px-2 py-1 ${isActive(item.path) ? 'text-primary' : 'text-foreground'
+                    }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.name}
                 </Link>
               ))}
               <div className="flex flex-col space-y-4 pt-6 border-t border-border">
-                <form onSubmit={handleSearch} className="relative">
-                  <Input
-                    type="text"
-                    placeholder="Search products..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="rounded-xl bg-muted/50 border-border/40 h-10 pl-10 pr-4"
-                  />
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                </form>
-                
-                <Button 
+
+
+                <Button
                   className="justify-start w-full bg-primary/10 hover:bg-primary/20 text-primary border-0 rounded-xl px-4 py-6 h-auto"
                   onClick={() => {
                     setIsMenuOpen(false);
@@ -185,8 +133,8 @@ const Header = () => {
                   <div className="text-left">
                     <p className="font-bold text-sm">View Your Cart</p>
                     <p className="text-[10px] opacity-70">
-                      {totalItems === 0 
-                        ? "Your cart is currently empty" 
+                      {totalItems === 0
+                        ? "Your cart is currently empty"
                         : `${totalItems} item${totalItems !== 1 ? 's' : ''} in your cart`}
                     </p>
                   </div>

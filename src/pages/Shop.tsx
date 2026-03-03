@@ -13,9 +13,9 @@ import { products } from '@/data/products';
 
 const Shop = () => {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const [searchQuery, setSearchQuery] = useState('');
 
-  const categories = ['All Products', 'Home Care', 'Personal Care'];
+
+  const categories = ['All Products', ...Array.from(new Set(products.map(p => p.category)))];
   const [selectedCategory, setSelectedCategory] = useState('All Products');
 
   // Component for handle product selection state
@@ -23,7 +23,7 @@ const Shop = () => {
     const [isDetailsOpen, setIsDetailsOpen] = useState(false);
     const [selectedVolume, setSelectedVolume] = useState(product.variants[0].volume);
     const [quantity, setQuantity] = useState(1);
-    
+
     const currentVariant = product.variants.find((v: any) => v.volume === selectedVolume);
     const packSizes = [1, currentVariant.bulkPackSize];
     const [selectedPack, setSelectedPack] = useState(packSizes[0]);
@@ -41,11 +41,11 @@ const Shop = () => {
           packSize: selectedPack
         }
       });
-      
+
       toast.success("Added to cart! 🛍️", {
         description: `${quantity}x ${product.name} (${selectedVolume}, Pack of ${selectedPack})`,
       });
-      
+
       setDrawerOpen(true);
     };
 
@@ -60,165 +60,149 @@ const Shop = () => {
 
     return (
       <>
-      <Card 
-        key={product.id} 
-        className={`group hover:shadow-2xl transition-all duration-500 bg-card border border-border/40 shadow-lg rounded-2xl overflow-hidden flex flex-col h-full ${
-          viewMode === 'list' ? 'md:flex-row md:items-stretch' : ''
-        }`}
-      >
-        <div 
-          className={`relative overflow-hidden cursor-pointer ${viewMode === 'list' ? 'md:w-64 flex-shrink-0' : 'aspect-[5/4]'}`}
-          onClick={() => setIsDetailsOpen(true)}
+        <Card
+          key={product.id}
+          className={`group hover:shadow-2xl transition-all duration-500 bg-card border border-border/40 shadow-lg rounded-2xl overflow-hidden flex flex-col h-full ${viewMode === 'list' ? 'md:flex-row md:items-stretch' : ''
+            }`}
         >
-          <div className="absolute inset-0 bg-muted flex items-center justify-center">
-            <img 
-              src={currentVariant.image || product.image} 
-              alt={product.name}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-            />
-            
-            {/* View Details Hover Overlay */}
-            <div className="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-              <Button size="sm" className="w-full bg-white/90 backdrop-blur-sm text-black border-0 font-bold hover:bg-white text-xs py-1 h-8 rounded-xl">
-                Quick View
-              </Button>
-            </div>
-
-            {/* Badges */}
-            <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
-              {product.featured && (
-                <Badge className="bg-primary/90 backdrop-blur-sm text-white border-0 font-bold px-2 py-0.5 text-[10px] shadow-sm">FEAT</Badge>
-              )}
-            </div>
-          </div>
-        </div>
-
-        <CardContent className={`p-4 flex flex-col flex-grow ${viewMode === 'list' ? 'md:justify-center' : ''}`}>
-          <div className="mb-2 flex justify-between items-start">
-            <span className="text-[9px] font-bold text-primary uppercase tracking-widest bg-primary/10 px-2 py-0.5 rounded">
-              {product.category}
-            </span>
-            <div className="flex items-center text-yellow-500">
-              <Star className="w-3 h-3 fill-current" />
-              <span className="text-[10px] font-bold ml-1 text-foreground">
-                {product.rating}
-              </span>
-            </div>
-          </div>
-          
-          <h3 
-            className="text-lg font-bold text-card-foreground mb-3 group-hover:text-primary transition-colors leading-tight cursor-pointer"
+          <div
+            className={`relative overflow-hidden cursor-pointer ${viewMode === 'list' ? 'md:w-64 flex-shrink-0' : 'aspect-[5/4]'}`}
             onClick={() => setIsDetailsOpen(true)}
           >
-            {product.name}
-          </h3>
+            <div className="absolute inset-0 bg-white flex items-center justify-center p-4 sm:p-6">
+              <img
+                src={currentVariant.image || product.image}
+                alt={product.name}
+                className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700"
+              />
 
-          {/* Volume Selection - Compact */}
-          <div className="mb-4 space-y-1.5">
-            <span className="text-[10px] font-medium text-muted-foreground uppercase flex items-center gap-1">
-              <Box className="w-2.5 h-2.5" /> Volume
-            </span>
-            <div className="flex flex-wrap gap-1.5">
-              {product.variants.map((v: any) => (
-                <button
-                  key={v.volume}
-                  onClick={() => handleVolumeChange(v.volume)}
-                  className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all border ${
-                    selectedVolume === v.volume 
-                      ? 'bg-primary border-primary text-white shadow-sm' 
-                      : 'bg-muted/30 border-border/50 text-muted-foreground'
-                  }`}
-                >
-                  {v.volume}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Pack Selection - Compact */}
-          <div className="mb-5 space-y-1.5">
-            <span className="text-[10px] font-medium text-muted-foreground uppercase flex items-center gap-1">
-              <Package className="w-2.5 h-2.5" /> Pack Size
-            </span>
-            <div className="flex flex-wrap gap-1.5">
-              {packSizes.map((size: number) => (
-                <button
-                  key={size}
-                  onClick={() => setSelectedPack(size)}
-                  className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all border ${
-                    selectedPack === size 
-                      ? 'bg-slate-900 border-slate-900 text-white shadow-sm' 
-                      : 'bg-muted/30 border-border/50 text-muted-foreground'
-                  }`}
-                >
-                  {size === 1 ? 'Single' : `Pack of ${size}`}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-auto pt-4 border-t border-border/30">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-baseline gap-1">
-                <span className="text-xl font-black text-foreground">
-                  {(currentVariant.price * selectedPack).toFixed(2)}
-                  <span className="text-[10px] font-bold ml-1 text-muted-foreground uppercase">GHS</span>
-                </span>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <div className="flex items-center bg-muted/30 rounded-xl p-0.5 border border-border/20">
-                <Button 
-                  size="icon" 
-                  variant="ghost" 
-                  className="h-7 w-7 rounded-lg"
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                >
-                  <Minus className="w-3 h-3" />
-                </Button>
-                <div className="w-6 text-center font-bold text-xs">{quantity}</div>
-                <Button 
-                  size="icon" 
-                  variant="ghost" 
-                  className="h-7 w-7 rounded-lg"
-                  onClick={() => setQuantity(quantity + 1)}
-                >
-                  <Plus className="w-3 h-3" />
+              {/* View Details Hover Overlay */}
+              <div className="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                <Button size="sm" className="w-full bg-white/90 backdrop-blur-sm text-black border-0 font-bold hover:bg-white text-xs py-1 h-8 rounded-xl">
+                  Quick View
                 </Button>
               </div>
 
-              <Button 
-                className="flex-1 gradient-warm text-white font-bold py-5 rounded-xl border-0 shadow-md hover:scale-[1.02] transition-all text-sm"
-                onClick={handleAddToCart}
-              >
-                Add to Cart
-              </Button>
+
             </div>
           </div>
-        </CardContent>
-      </Card>
-      
-      <ProductDetailsDialog 
-        product={product} 
-        open={isDetailsOpen} 
-        onOpenChange={setIsDetailsOpen} 
-      />
+
+          <CardContent className={`p-4 flex flex-col flex-grow ${viewMode === 'list' ? 'md:justify-center' : ''}`}>
+            <div className="mb-2 flex justify-between items-start">
+              <span className="text-[9px] font-bold text-primary uppercase tracking-widest bg-primary/10 px-2 py-0.5 rounded">
+                {product.category}
+              </span>
+
+            </div>
+
+            <h3
+              className="text-lg font-bold text-card-foreground mb-3 group-hover:text-primary transition-colors leading-tight cursor-pointer"
+              onClick={() => setIsDetailsOpen(true)}
+            >
+              {product.name}
+            </h3>
+
+            {/* Volume Selection - Compact */}
+            <div className="mb-4 space-y-1.5">
+              <span className="text-[10px] font-medium text-muted-foreground uppercase flex items-center gap-1">
+                <Box className="w-2.5 h-2.5" /> Volume
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                {product.variants.map((v: any) => (
+                  <button
+                    key={v.volume}
+                    onClick={() => handleVolumeChange(v.volume)}
+                    className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all border ${selectedVolume === v.volume
+                      ? 'bg-primary border-primary text-white shadow-sm'
+                      : 'bg-muted/30 border-border/50 text-muted-foreground'
+                      }`}
+                  >
+                    {v.volume}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Pack Selection - Compact */}
+            <div className="mb-5 space-y-1.5">
+              <span className="text-[10px] font-medium text-muted-foreground uppercase flex items-center gap-1">
+                <Package className="w-2.5 h-2.5" /> Pack Size
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                {packSizes.map((size: number) => (
+                  <button
+                    key={size}
+                    onClick={() => setSelectedPack(size)}
+                    className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all border ${selectedPack === size
+                      ? 'bg-slate-900 border-slate-900 text-white shadow-sm'
+                      : 'bg-muted/30 border-border/50 text-muted-foreground'
+                      }`}
+                  >
+                    {size === 1 ? 'Single' : `Pack of ${size}`}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-auto pt-4 border-t border-border/30">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-baseline gap-1">
+                  <span className="text-xl font-black text-foreground">
+                    {(currentVariant.price * selectedPack).toFixed(2)}
+                    <span className="text-[10px] font-bold ml-1 text-muted-foreground uppercase">GHS</span>
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <div className="flex items-center bg-muted/30 rounded-xl p-0.5 border border-border/20">
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    className="h-7 w-7 rounded-lg"
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  >
+                    <Minus className="w-3 h-3" />
+                  </Button>
+                  <div className="w-6 text-center font-bold text-xs">{quantity}</div>
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    className="h-7 w-7 rounded-lg"
+                    onClick={() => setQuantity(quantity + 1)}
+                  >
+                    <Plus className="w-3 h-3" />
+                  </Button>
+                </div>
+
+                <Button
+                  className="flex-1 gradient-warm text-white font-bold py-5 rounded-xl border-0 shadow-md hover:scale-[1.02] transition-all text-sm"
+                  onClick={handleAddToCart}
+                >
+                  Add to Cart
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <ProductDetailsDialog
+          product={product}
+          open={isDetailsOpen}
+          onOpenChange={setIsDetailsOpen}
+        />
       </>
     );
   };
 
   const filteredProducts = products.filter(product => {
-    const matchesCategory = selectedCategory === 'All Products' || product.category === selectedCategory;
-    const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         product.description.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
+    return selectedCategory === 'All Products' || product.category === selectedCategory;
   });
 
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      
+
       {/* Hero Section */}
       <section className="bg-background py-8 sm:py-12 relative overflow-hidden">
         <div className="absolute inset-0 gradient-sunset opacity-5"></div>
@@ -238,11 +222,10 @@ const Shop = () => {
               <Badge
                 key={category}
                 variant={selectedCategory === category ? "default" : "outline"}
-                className={`cursor-pointer whitespace-nowrap px-6 py-2.5 rounded-2xl border-2 transition-all font-bold text-sm ${
-                  selectedCategory === category 
-                    ? 'bg-primary border-primary text-white shadow-lg shadow-primary/20 scale-105' 
-                    : 'bg-card border-border hover:border-primary hover:text-primary'
-                }`}
+                className={`cursor-pointer whitespace-nowrap px-6 py-2.5 rounded-2xl border-2 transition-all font-bold text-sm ${selectedCategory === category
+                  ? 'bg-primary border-primary text-white shadow-lg shadow-primary/20 scale-105'
+                  : 'bg-card border-border hover:border-primary hover:text-primary'
+                  }`}
                 onClick={() => setSelectedCategory(category)}
               >
                 {category}
@@ -261,11 +244,10 @@ const Shop = () => {
             </h2>
           </div>
 
-          <div className={`grid gap-8 ${
-            viewMode === 'grid' 
-              ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' 
-              : 'grid-cols-1'
-          }`}>
+          <div className={`grid gap-8 ${viewMode === 'grid'
+            ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+            : 'grid-cols-1'
+            }`}>
             {filteredProducts.map((product) => (
               <ProductCard key={product.id} product={product} viewMode={viewMode} />
             ))}
@@ -278,13 +260,12 @@ const Shop = () => {
               </div>
               <h3 className="text-2xl font-black mb-3">No matches found</h3>
               <p className="text-muted-foreground text-lg mb-8 px-8">We couldn't find any products matching your current search or filters.</p>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 size="lg"
                 className="border-2 border-primary text-primary font-black px-10 rounded-2xl"
                 onClick={() => {
                   setSelectedCategory('All Products');
-                  setSearchQuery('');
                 }}
               >
                 Reset All Filters

@@ -13,23 +13,23 @@ const FeaturedProducts = () => {
   const ProductItem = ({ product }: { product: any }) => {
     const [isDetailsOpen, setIsDetailsOpen] = useState(false);
     const { addToCart, setDrawerOpen } = useCart();
-    
+
     return (
       <div>
-        <Card 
+        <Card
           className="group hover:shadow-2xl transition-all duration-500 bg-card border border-border/40 shadow-lg rounded-xl sm:rounded-2xl overflow-hidden flex flex-col h-full"
         >
-          <div 
+          <div
             className="relative overflow-hidden aspect-square sm:aspect-[5/4] cursor-pointer"
             onClick={() => setIsDetailsOpen(true)}
           >
-            <div className="absolute inset-0 bg-muted flex items-center justify-center">
-              <img 
-                src={product.image} 
+            <div className="absolute inset-0 bg-white flex items-center justify-center p-2 sm:p-4">
+              <img
+                src={product.image}
                 alt={product.name}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700"
               />
-              
+
               <div className="absolute top-2 right-2 flex flex-col space-y-2 hidden sm:flex sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300">
                 <Button size="icon" variant="secondary" className="bg-card/90 backdrop-blur-sm shadow-md rounded-xl border-0 h-8 w-8">
                   <Heart className="w-4 h-4 text-rose-500" />
@@ -47,25 +47,15 @@ const FeaturedProducts = () => {
                 {product.category}
               </span>
             </div>
-            
-            <h3 
+
+            <h3
               className="text-sm sm:text-lg font-bold text-card-foreground mb-1 sm:mb-3 group-hover:text-primary transition-colors leading-tight min-h-[2.5rem] sm:min-h-0 cursor-pointer"
               onClick={() => setIsDetailsOpen(true)}
             >
               {product.name}
             </h3>
 
-            <div className="flex items-center mb-2 sm:mb-4">
-              <div className="flex items-center text-yellow-500">
-                <Star className="w-2.5 h-2.5 sm:w-3 sm:h-3 fill-current" />
-                <span className="text-[9px] sm:text-[10px] font-bold text-foreground ml-1">
-                  {product.rating}
-                </span>
-              </div>
-              <span className="text-[9px] sm:text-[10px] text-muted-foreground ml-2 hidden sm:inline">
-                ({product.reviews})
-              </span>
-            </div>
+
 
             <div className="mt-auto pt-3 sm:pt-4 border-t border-border/30 flex flex-col space-y-2 sm:space-y-3">
               <div className="flex items-baseline space-x-1 sm:space-x-2">
@@ -74,7 +64,7 @@ const FeaturedProducts = () => {
                   <span className="text-[8px] sm:text-[10px] font-bold ml-1 text-muted-foreground uppercase">GHS</span>
                 </span>
               </div>
-              <Button 
+              <Button
                 onClick={() => {
                   const defaultVariant = product.variants[0];
                   addToCart({
@@ -100,11 +90,11 @@ const FeaturedProducts = () => {
             </div>
           </CardContent>
         </Card>
-        
-        <ProductDetailsDialog 
-          product={product as any} 
-          open={isDetailsOpen} 
-          onOpenChange={setIsDetailsOpen} 
+
+        <ProductDetailsDialog
+          product={product as any}
+          open={isDetailsOpen}
+          onOpenChange={setIsDetailsOpen}
         />
       </div>
     );
@@ -130,9 +120,9 @@ const FeaturedProducts = () => {
 
         <div className="text-center mt-16 sm:mt-20">
           <Link to="/shop">
-            <Button 
-              size="lg" 
-              variant="outline" 
+            <Button
+              size="lg"
+              variant="outline"
               className="w-full sm:w-auto border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground font-black py-6 px-12 rounded-xl transition-all duration-300 text-lg"
             >
               Explore Full Catalog

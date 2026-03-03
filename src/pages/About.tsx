@@ -31,7 +31,7 @@ const About = () => {
   const stats = [
     { number: '5000+', label: 'Happy Customers' },
     { number: '50+', label: 'Unique Products' },
-    { number: '3', label: 'Years of Experience' },
+    { number: '5', label: 'Years of Experience' },
     { number: '100%', label: 'Fine Ingredients' }
   ];
 
@@ -51,7 +51,7 @@ const About = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      
+
       {/* Hero Section */}
       <section className="bg-background py-8 sm:py-12 relative overflow-hidden">
         <div className="absolute inset-0 gradient-sunset opacity-5"></div>
@@ -74,7 +74,7 @@ const About = () => {
                 Our Mission
               </h2>
               <p className="text-base text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-                We believe that the products you use in your home should be as pure and dependable as possible. 
+                We believe that the products you use in your home should be as pure and dependable as possible.
                 Our mission is to create quality products that bring comfort and reliability to your daily life.
               </p>
             </div>
@@ -107,13 +107,13 @@ const About = () => {
                 </h2>
                 <div className="space-y-4 text-sm sm:text-base text-muted-foreground leading-relaxed">
                   <p>
-                  It all began with a simple curiosity — a desire to learn the art of chocolate making. After mastering delicious custom chocolates, our founder expanded her creativity into home care.
+                    It all began with a simple curiosity — a desire to learn the art of chocolate making. After mastering delicious custom chocolates, our founder expanded her creativity into home care.
                   </p>
                   <p>
-                  Perfecting her own formulas for soaps, detergents, and shower gels, she focused on effectiveness, fragrance, and affordability — always thinking about the needs of everyday families.
+                    Perfecting her own formulas for soaps, detergents, and shower gels, she focused on effectiveness, fragrance, and affordability — always thinking about the needs of everyday families.
                   </p>
                   <p>
-                  Today, Fairine is on a mission to supply homes and businesses with trusted, quality products made with genuine care.
+                    Today, Fairine is on a mission to supply homes and businesses with trusted, quality products made with genuine care.
                   </p>
                 </div>
               </div>
@@ -170,7 +170,7 @@ const About = () => {
             <p className="text-base text-muted-foreground mb-10 leading-relaxed">
               We focus on safe, effective, and small-batch production to maintain consistency and quality in every bottle.
             </p>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 text-left">
               <div className="space-y-6">
                 <div className="flex items-start space-x-4 group">
