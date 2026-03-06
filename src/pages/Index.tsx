@@ -13,10 +13,10 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background transition-colors duration-500">
       <SEO
-        title="Fairine Enterprise | Quality Home & Personal Care in Ghana"
-        description="Discover high-quality, artisanal home and personal care products in Ghana. From scented liquid soaps to all-purpose floor cleaners, Fairine offers eco-friendly solutions for a sparkling clean home. Available in Accra and beyond."
+        title="Buy Quality Soap & Cleaning Detergents in Ghana | Fairine Enterprise"
+        description="Shop effective liquid soaps, powerful floor cleaners, and premium detergents. Fairine Enterprise is your trusted manufacturer and supplier of cleaning products in Accra and across Ghana. Bulk orders available."
         canonical="/"
-        keywords="liquid soap in Ghana, floor cleaner in Accra, home care products Ghana, personal care Ghana, scented soap, dish wash, tile cleaner, sustainable cleaning"
+        keywords="buy soap Ghana, cleaning detergents Accra, liquid soap manufacturer Ghana, floor cleaner price Accra, best dishwasher soap Ghana, bulk cleaning supplies, laundry detergent suppliers"
         structuredData={{
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
@@ -29,7 +29,7 @@ const Index = () => {
           "telephone": "+233 26 123 3032",
           "email": "fairineenterprise@gmail.com",
           "image": "https://fairine.com/assets/logo-clean.png",
-          "description": "Artisanal home and personal care products made with quality ingredients in Ghana. We offer a range of liquid soaps, floor cleaners, and more.",
+          "description": "Manufacturer and supplier of high-quality liquid soaps, detergents, and floor cleaners in Ghana. We provide effective cleaning solutions for homes and businesses.",
           "priceRange": "GH₵"
         }}
       />
@@ -43,14 +43,14 @@ const Index = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16 px-4">
             <Badge variant="outline" className="mb-4 border-primary/20 text-primary bg-primary/5 backdrop-blur-sm px-4 py-1 rounded-full font-bold uppercase tracking-widest text-[10px]">
-              The Fairine Promise
+              Why Buy From Fairine?
             </Badge>
             <h2 className="text-3xl sm:text-5xl font-black text-foreground mb-6 leading-tight tracking-tight">
-              Quality Home & Personal Care in Ghana
+              Effective Cleaning Solutions for Your Home
             </h2>
             <p className="text-base sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed font-medium">
-              We combine artisanal care with pharmaceutical precision to bring you the highest quality home and personal care products in Ghana. From our scented liquid soaps to our all-purpose floor cleaners, every product is crafted with love and quality ingredients.
-              <Link to="/about" className="text-primary hover:underline"> Learn more about our story.</Link>
+              We manufacture the most effective liquid soaps and cleaning detergents in Ghana. Designed for power and efficiency, our products ensure your home stays spotless and fresh. Quality you can trust, prices you'll love.
+              <Link to="/shop" className="text-primary hover:underline"> Explore our full catalog.</Link>
             </p>
           </div>
 
@@ -62,9 +62,9 @@ const Index = () => {
                 <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform duration-500 shadow-sm">
                   <Award className="w-7 h-7" />
                 </div>
-                <h3 className="text-2xl font-black text-foreground mb-3">Artisanal Liquid Soaps & Cleaners</h3>
+                <h3 className="text-2xl font-black text-foreground mb-3">Powerful Liquid Soaps & Detergents</h3>
                 <p className="text-muted-foreground font-medium leading-relaxed">
-                  Every bottle of our liquid soap and floor cleaner is small-batch formulated to ensure it meets our strict standards of excellence.
+                  Our formulas are engineered for maximum cleaning power, ensuring every drop of our detergent removes tough grease and stains effortlessly.
                 </p>
                 <div className="absolute bottom-4 right-8 text-[4rem] font-black text-foreground/5 pointer-events-none select-none italic group-hover:text-primary/10 transition-colors">01</div>
               </CardContent>

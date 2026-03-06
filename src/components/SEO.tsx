@@ -22,7 +22,7 @@ const SEO = ({
     keywords,
 }: SEOProps) => {
     const siteName = 'Fairine Enterprise';
-    const fullTitle = title ? `${title} | ${siteName}` : `${siteName} | Quality Home & Personal Care`;
+    const fullTitle = title ? `${title} | ${siteName}` : `${siteName} | Buy Quality Soap & Cleaning Detergents in Ghana`;
     const siteUrl = 'https://fairine.com'; // Replace with actual production URL if different
     const currentUrl = canonical ? `${siteUrl}${canonical}` : siteUrl;
 
@@ -59,7 +59,7 @@ const SEO = ({
                         "name": "Fairine Enterprise",
                         "url": "https://fairine.com",
                         "logo": "https://fairine.com/assets/logo-clean.png",
-                        "description": "Quality home and personal care products crafted with love in Ghana.",
+                        "description": "Manufacturer and supplier of high-quality liquid soaps and cleaning detergents in Ghana.",
                         "address": {
                             "@type": "PostalAddress",
                             "addressLocality": "Accra",

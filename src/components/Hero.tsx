@@ -23,11 +23,11 @@ const Hero = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-xl mx-auto text-center flex flex-col items-center">
           <h1 className="text-4xl sm:text-7xl font-black text-white mb-2 leading-tight tracking-tight drop-shadow-2xl">
-            Quality Home & Personal Care
+            Effective Soaps & Cleaning Detergents
           </h1>
 
           <p className="text-sm sm:text-xl text-white/90 mb-8 max-w-md font-medium tracking-wide drop-shadow-lg">
-            Discover our range of liquid soaps, floor cleaners, and more. Crafted with love and quality ingredients.
+            Shop high-performance liquid soaps and powerful cleaning detergents. Manufactured in Ghana for ultimate cleanliness.
           </p>
 
           <div className="flex flex-row items-center justify-center gap-3 w-full mb-8">

@@ -19,7 +19,7 @@ const Footer = () => {
               </span>
             </div>
             <p className="text-muted-foreground text-[13px] sm:text-sm leading-relaxed max-w-xs">
-              Handcrafted home care and fine product formulations, made with care to bring comfort and quality to your every day.
+              Direct manufacturers of high-performance liquid soaps and cleaning detergents in Ghana. Bringing professional quality to your doorstep.
             </p>
             <div className="flex items-center space-x-2 pt-2 sm:pt-3">
               <span className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-emerald-500 text-white text-[10px] sm:text-[12px] font-black shadow-lg shadow-emerald-500/20">
