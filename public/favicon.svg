@@ -1,20 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <defs>
-    <linearGradient id="blue_grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#38bdf8;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#0369a1;stop-opacity:1" />
+    <linearGradient id="pill_grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#143475;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e40af;stop-opacity:1" />
     </linearGradient>
   </defs>
-  <!-- Main Blue Droplet Shape -->
-  <path d="M256,480 C120,480 32,380 32,256 C32,132 132,32 256,32 C380,32 480,180 480,256 C480,380 392,480 256,480 Z" fill="url(#blue_grad)" />
+  <!-- Pill/Oval Shape matching logo-clean.png -->
+  <rect x="32" y="128" width="448" height="256" rx="128" fill="url(#pill_grad)" />
   
-  <!-- Stylized Elegant 'F' -->
-  <text x="256" y="340" font-family="'Inter', 'Georgia', 'Times New Roman', serif" font-size="280" font-weight="900" fill="white" text-anchor="middle" style="letter-spacing: -2px;">F</text>
+  <!-- Stylized Elegant 'F' from the new brand identity -->
+  <text x="256" y="315" font-family="'Inter', 'Georgia', 'Times New Roman', serif" font-size="200" font-weight="900" fill="white" text-anchor="middle" style="letter-spacing: -2px;">F</text>
   
-  <!-- Green Droplets/Leaves from Logo -->
-  <path d="M220,120 C220,80 240,80 240,120 C240,160 220,180 220,120" fill="#22c55e" opacity="0.9" />
-  <path d="M280,140 C280,100 300,100 300,140 C300,180 280,200 280,140" fill="#84cc16" opacity="0.9" />
-  
-  <!-- Subtle Wave at Bottom -->
-  <path d="M32,256 Q144,200 256,256 T480,256 L480,256 Q392,300 256,256 T32,256 Z" fill="white" opacity="0.1" />
+  <!-- Subtle accent dot or leaf to keep a hint of the nature element -->
+  <circle cx="360" cy="180" r="25" fill="#22c55e" />
 </svg>
