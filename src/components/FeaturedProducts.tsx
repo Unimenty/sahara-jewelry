@@ -1,131 +1,58 @@
 
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Star, Heart, Eye } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
-import { useCart } from '@/context/CartContext';
-import { toast } from 'sonner';
-import ProductDetailsDialog from './ProductDetailsDialog';
 import { products } from '@/data/products';
+import { Button } from '@/components/ui/button';
 
 const FeaturedProducts = () => {
-  const ProductItem = ({ product }: { product: any }) => {
-    const [isDetailsOpen, setIsDetailsOpen] = useState(false);
-    const { addToCart, setDrawerOpen } = useCart();
-
-    return (
-      <div>
-        <Card
-          className="group hover:shadow-2xl transition-all duration-500 bg-card border border-border/40 shadow-lg rounded-xl sm:rounded-2xl overflow-hidden flex flex-col h-full"
-        >
-          <div
-            className="relative overflow-hidden aspect-square sm:aspect-[5/4] cursor-pointer"
-            onClick={() => setIsDetailsOpen(true)}
-          >
-            <div className="absolute inset-0 bg-white flex items-center justify-center p-2 sm:p-4">
-              <img
-                src={product.image}
-                alt={product.name}
-                className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700"
-              />
-
-              <div className="absolute top-2 right-2 flex flex-col space-y-2 hidden sm:flex sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300">
-                <Button size="icon" variant="secondary" className="bg-card/90 backdrop-blur-sm shadow-md rounded-xl border-0 h-8 w-8">
-                  <Heart className="w-4 h-4 text-rose-500" />
-                </Button>
-                <Button size="icon" variant="secondary" className="bg-card/90 backdrop-blur-sm shadow-md rounded-xl border-0 h-8 w-8">
-                  <Eye className="w-4 h-4" />
-                </Button>
-              </div>
-            </div>
-          </div>
-
-          <CardContent className="p-3 sm:p-4 flex flex-col flex-grow">
-            <div className="mb-1 sm:mb-2">
-              <span className="text-[7px] sm:text-[9px] font-bold text-primary uppercase tracking-[0.15em] bg-primary/10 px-1.5 sm:px-2 py-0.5 rounded">
-                {product.category}
-              </span>
-            </div>
-
-            <h3
-              className="text-sm sm:text-lg font-bold text-card-foreground mb-1 sm:mb-3 group-hover:text-primary transition-colors leading-tight min-h-[2.5rem] sm:min-h-0 cursor-pointer"
-              onClick={() => setIsDetailsOpen(true)}
-            >
-              {product.name}
-            </h3>
-
-
-
-            <div className="mt-auto pt-3 sm:pt-4 border-t border-border/30 flex flex-col space-y-2 sm:space-y-3">
-              <div className="flex items-baseline space-x-1 sm:space-x-2">
-                <span className="text-base sm:text-xl font-black text-foreground">
-                  {product.variants[0].price.toFixed(2)}
-                  <span className="text-[8px] sm:text-[10px] font-bold ml-1 text-muted-foreground uppercase">GHS</span>
-                </span>
-              </div>
-              <Button
-                onClick={() => {
-                  const defaultVariant = product.variants[0];
-                  addToCart({
-                    id: product.id.toString(),
-                    name: product.name,
-                    image: defaultVariant.image || product.image,
-                    price: defaultVariant.price,
-                    quantity: 1,
-                    variant: {
-                      volume: defaultVariant.volume,
-                      packSize: 1
-                    }
-                  });
-                  toast.success("Added to cart! 🛍️", {
-                    description: `1x ${product.name} (${defaultVariant.volume})`,
-                  });
-                  setDrawerOpen(true);
-                }}
-                className="w-full h-9 sm:h-11 gradient-warm text-white font-bold rounded-lg sm:rounded-xl border-0 shadow-md hover:scale-[1.02] transition-all text-[11px] sm:text-sm px-1"
-              >
-                Add to Cart
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-
-        <ProductDetailsDialog
-          product={product as any}
-          open={isDetailsOpen}
-          onOpenChange={setIsDetailsOpen}
-        />
-      </div>
-    );
-  };
+  // Pick top 4 products for the featured section
+  const featured = products.slice(0, 4);
 
   return (
-    <section className="py-16 sm:py-24 bg-muted/30">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12 sm:mb-16">
-          <h2 className="text-3xl sm:text-5xl font-bold text-foreground mb-4">
-            Featured Products
-          </h2>
-          <p className="text-muted-foreground text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed">
-            Discover our most popular quality products, made with love and quality ingredients
-          </p>
-        </div>
+    <section className="border-b border-border bg-background transition-colors duration-500">
+      <div className="flex flex-col items-center text-center py-20 px-8">
+        <h2 className="text-4xl sm:text-5xl font-serif text-foreground mb-6">Featured Collections</h2>
+        <div className="w-12 h-[1px] bg-[#C5A572] mb-8"></div> {/* Minimalist gold divider */}
+      </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
-          {products.map((product) => (
-            <ProductItem key={product.id} product={product} />
+      {/* Responsive grid: 3 col on desktop */}
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 pb-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+          {products.slice(0, 6).map((product) => (
+            <Link
+              key={product.id}
+              to={`/shop/${product.id}`}
+              className="group flex flex-col transition-all duration-300"
+            >
+              {/* Image with subtle border highlight on middle items potentially or just clean grid */}
+              <div className="relative aspect-square overflow-hidden bg-[#FAF9F7] rounded-sm group-hover:shadow-md transition-all duration-500 px-12 py-12 flex items-center justify-center">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105"
+                />
+              </div>
+
+              {/* Product Info */}
+              <div className="py-6 text-center">
+                <h3 className="text-[15px] font-bold text-foreground mb-1 group-hover:text-[#C5A572] transition-colors">
+                  {product.name}
+                </h3>
+                <span className="text-[13px] text-foreground/50 tracking-widest">${product.variants[0]?.price.toFixed(2)}</span>
+              </div>
+            </Link>
           ))}
         </div>
 
-        <div className="text-center mt-16 sm:mt-20">
+        {/* View All Button */}
+        <div className="flex justify-center mt-12">
           <Link to="/shop">
             <Button
-              size="lg"
               variant="outline"
-              className="w-full sm:w-auto border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground font-black py-6 px-12 rounded-xl transition-all duration-300 text-lg"
+              className="border-border border rounded-none px-12 py-6 h-auto text-[11px] uppercase tracking-[0.2em] font-bold bg-transparent hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300"
             >
-              Explore Full Catalog
+              View All Collections
             </Button>
           </Link>
         </div>

@@ -1,13 +1,9 @@
-
-import Header from '@/components/Header';
 import SEO from '@/components/SEO';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { MapPin, Phone, Mail, Clock, MessageSquare, HeadphonesIcon, Heart } from 'lucide-react';
+import { Phone, Mail } from 'lucide-react';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import emailjs from '@emailjs/browser';
@@ -17,9 +13,7 @@ const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    subject: '',
-    message: '',
-    inquiryType: ''
+    message: ''
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -32,35 +26,33 @@ const Contact = () => {
       from_name: formData.name,
       from_email: formData.email,
       message: formData.message,
-      to_email: 'fairineenterprise@gmail.com',
+      to_email: 'hello@axels.com',
     };
 
     try {
       await emailjs.send(
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID, // You might want a specific template for contact, but using the same for now
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID, 
         templateParams,
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       );
 
       toast({
-        title: "Message Sent!",
-        description: "Thank you for contacting us. We'll get back to you soon.",
+        title: "Message Sent",
+        description: "Thank you for reaching out. We will respond shortly.",
       });
 
       setFormData({
         name: '',
         email: '',
-        subject: '',
-        message: '',
-        inquiryType: ''
+        message: ''
       });
     } catch (error) {
       console.error('EmailJS Error:', error);
       toast({
         variant: "destructive",
         title: "Error",
-        description: "There was an issue sending your message. Please try again or use WhatsApp.",
+        description: "There was an issue sending your message. Please try again.",
       });
     } finally {
       setIsSubmitting(false);
@@ -71,182 +63,110 @@ const Contact = () => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const contactInfo = [
-    {
-      icon: <MessageSquare className="w-6 h-6" />,
-      title: 'WhatsApp us',
-      info: '+233 26 123 3032',
-      description: 'The quickest way to reach our small team',
-      primary: true,
-      link: 'https://wa.me/233261233032'
-    },
-    {
-      icon: <Phone className="w-6 h-6" />,
-      title: 'Give us a call',
-      info: '+233 54 686 5035',
-      description: 'Available Mon-Sat, 9AM-6PM',
-      primary: true,
-      link: 'tel:+233546865035'
-    },
-    {
-      icon: <Mail className="w-5 h-5" />,
-      title: 'Email',
-      info: 'fairineenterprise@gmail.com',
-      description: 'We usually respond within a day',
-      link: 'mailto:fairineenterprise@gmail.com'
-    }
-  ];
-
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="Contact Us"
-        description="Have questions or feedback? Reach out to the Fairine team via WhatsApp, phone, or email. We're here to help you care for your home."
-        keywords="contact Fairine, Fairine customer support, purchase liquid soap Accra, Fairine WhatsApp, home care inquiry"
+        title="Contact"
+        description="Get in touch with the Axels jewelry concierge. We are here to assist with bespoke commissions, styling advice, and support."
+        keywords="contact Axels, bespoke jewelry, fine jewelry concierge, support"
         canonical="/contact"
       />
-      <Header />
 
       {/* Hero Section */}
-      <section className="bg-background py-10 sm:py-16 relative overflow-hidden">
-        <div className="absolute inset-0 gradient-sunset opacity-5"></div>
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative text-center">
-          <h1 className="text-3xl sm:text-5xl font-black text-foreground mb-4 leading-tight tracking-tight">
-            Contact Fairine Enterprise
+      <section className="bg-background pt-24 pb-16 sm:border-b border-border text-center">
+        <div className="container mx-auto px-4">
+          <p className="text-[10px] uppercase tracking-[0.2em] mb-4 text-muted-foreground">Concierge Services</p>
+          <h1 className="text-4xl sm:text-6xl font-serif text-foreground mb-6 leading-tight">
+            Contact Us
           </h1>
-          <p className="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto leading-relaxed">
-            We're a small team of less than 10 people, personally crafting and packing every order of our home care products in Accra, Ghana. We'd love to hear from you!
+          <p className="text-muted-foreground font-light max-w-lg mx-auto">
+            Whether inquiring about a bespoke commission or a piece from our collection, our dedicated concierge team is at your standard.
           </p>
         </div>
       </section>
 
       {/* Main Content */}
-      <section className="pb-20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Top Priority: Direct Contact */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-            {contactInfo.filter(i => i.primary).map((item, index) => (
-              <Card key={index} className="rounded-[2rem] border-0 shadow-xl bg-card hover:scale-[1.02] transition-all duration-300 group overflow-hidden">
-                <div className="p-8 flex flex-col items-center text-center relative">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500"></div>
-                  <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
-                    {item.icon}
-                  </div>
-                  <h3 className="text-sm font-bold uppercase tracking-widest text-muted-foreground mb-2">{item.title}</h3>
-                  <p className="text-2xl sm:text-3xl font-black text-foreground mb-3">{item.info}</p>
-                  <p className="text-sm text-muted-foreground">{item.description}</p>
-
-                  <a
-                    href={item.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-8 w-full"
-                  >
-                    <Button className="w-full rounded-full px-8 py-6 h-auto font-black text-sm bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20">
-                      {item.title.includes('WhatsApp') ? 'Order via WhatsApp' : 'Call for Enquiries'}
-                    </Button>
-                  </a>
+      <section className="py-20">
+        <div className="container mx-auto px-4 sm:px-8 max-w-5xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            
+            {/* Form Side */}
+            <div className="border border-border p-8 sm:p-12">
+              <h2 className="text-2xl font-serif text-foreground mb-8">Send an Inquiry</h2>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="space-y-2">
+                  <Label htmlFor="name" className="text-[10px] uppercase tracking-widest text-muted-foreground">Name</Label>
+                  <Input
+                    id="name"
+                    value={formData.name}
+                    onChange={(e) => handleChange('name', e.target.value)}
+                    className="rounded-none border-border bg-transparent focus-visible:ring-0 focus-visible:border-foreground h-12"
+                    required
+                  />
                 </div>
-              </Card>
-            ))}
-          </div>
+                <div className="space-y-2">
+                  <Label htmlFor="email" className="text-[10px] uppercase tracking-widest text-muted-foreground">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => handleChange('email', e.target.value)}
+                    className="rounded-none border-border bg-transparent focus-visible:ring-0 focus-visible:border-foreground h-12"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="message" className="text-[10px] uppercase tracking-widest text-muted-foreground">Message</Label>
+                  <Textarea
+                    id="message"
+                    value={formData.message}
+                    onChange={(e) => handleChange('message', e.target.value)}
+                    rows={6}
+                    className="rounded-none border-border bg-transparent focus-visible:ring-0 focus-visible:border-foreground p-4 resize-none"
+                    required
+                  />
+                </div>
+                <Button 
+                  type="submit" 
+                  disabled={isSubmitting}
+                  className="w-full bg-foreground text-background font-medium rounded-none uppercase tracking-widest text-xs h-12 hover:bg-foreground/90 transition-colors"
+                >
+                  {isSubmitting ? 'Sending...' : 'Submit Inquiry'}
+                </Button>
+              </form>
+            </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
-            {/* Feedback Form */}
-                        <div className="lg:col-span-2">
-                          <div className="bg-card rounded-[2.5rem] p-8 sm:p-12 shadow-2xl border border-border/40 relative overflow-hidden">
-                            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary to-orange-500"></div>
-                            <div className="mb-10">
-                              <h2 className="text-2xl sm:text-3xl font-black text-foreground mb-3">Send Us a Message</h2>
-                              <p className="text-muted-foreground text-sm">Have feedback on our liquid soaps or floor cleaners? Or just want to say hi? We're all ears.</p>
-                            </div>
-            
-                            <form onSubmit={handleSubmit} className="space-y-6">
-                              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div className="space-y-2">
-                                  <Label htmlFor="name" className="text-xs font-black uppercase tracking-widest text-muted-foreground ml-1">Your Name</Label>
-                                  <Input
-                                    id="name"
-                                    value={formData.name}
-                                    onChange={(e) => handleChange('name', e.target.value)}
-                                    placeholder="What should we call you?"
-                                    className="rounded-2xl border-border/60 bg-muted/20 focus-visible:ring-primary/20 h-14 px-6 text-base"
-                                    required
-                                  />
-                                </div>
-                                <div className="space-y-2">
-                                  <Label htmlFor="email" className="text-xs font-black uppercase tracking-widest text-muted-foreground ml-1">How can we reach you?</Label>
-                                  <Input
-                                    id="email"
-                                    value={formData.email}
-                                    onChange={(e) => handleChange('email', e.target.value)}
-                                    placeholder="Phone or Email"
-                                    className="rounded-2xl border-border/60 bg-muted/20 focus-visible:ring-primary/20 h-14 px-6 text-base"
-                                    required
-                                  />
-                                </div>
-                              </div>
-            
-                              <div className="space-y-2">
-                                <Label htmlFor="message" className="text-xs font-black uppercase tracking-widest text-muted-foreground ml-1">What's on your mind?</Label>
-                                <Textarea
-                                  id="message"
-                                  value={formData.message}
-                                  onChange={(e) => handleChange('message', e.target.value)}
-                                  placeholder="Share your feedback on our home care products or just say hello..."
-                                  rows={5}
-                                  className="rounded-3xl border-border/60 bg-muted/20 focus-visible:ring-primary/20 min-h-[150px] p-6 text-base"
-                                  required
-                                />
-                              </div>
-            
-                              <Button 
-                                type="submit" 
-                                disabled={isSubmitting}
-                                className="w-full gradient-warm text-white font-black py-8 rounded-2xl shadow-xl hover:scale-[1.01] transition-all text-base mt-4"
-                              >
-                                {isSubmitting ? 'Sending...' : 'Send to the Fairine Team'}
-                              </Button>
-                            </form>
-                          </div>
-                        </div>
-            {/* Email Support */}
-            <div className="space-y-6">
-              <Card className="rounded-[2rem] border border-border/40 shadow-xl bg-card overflow-hidden">
-                <CardHeader className="p-8 pb-0">
-                  <CardTitle className="text-lg font-black flex items-center gap-2">
-                    <Mail className="w-5 h-5 text-primary" />
-                    Other Ways
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-8 pt-6 space-y-6">
-                  <a href="mailto:fairineenterprise@gmail.com" className="block group/item">
-                    <div className="flex items-start space-x-4">
-                      <div className="w-10 h-10 bg-primary/5 rounded-xl flex items-center justify-center text-primary flex-shrink-0 group-hover/item:bg-primary group-hover/item:text-white transition-colors">
-                        <Mail className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <h4 className="font-bold text-sm mb-0.5 group-hover/item:text-primary transition-colors">Email Support</h4>
-                        <p className="text-xs text-muted-foreground mb-1">fairineenterprise@gmail.com</p>
-                        <p className="text-[10px] text-muted-foreground italic">Best for detailed requests</p>
-                      </div>
-                    </div>
-                  </a>
-
-                  <div className="pt-6 border-t border-border/40">
-                    <p className="text-xs text-muted-foreground leading-relaxed">
-                      We're often busy in the workshop, so if we don't pick up right away, just leave a message and we'll get back to you!
-                    </p>
+            {/* Details Side */}
+            <div className="flex flex-col justify-center space-y-12">
+              <div>
+                <h3 className="text-[10px] uppercase tracking-widest text-muted-foreground mb-4">Direct Communication</h3>
+                <div className="space-y-6">
+                  <div className="flex items-center space-x-4">
+                    <Mail className="w-5 h-5 text-foreground stroke-[1.5]" />
+                    <a href="mailto:hello@axels.com" className="text-foreground font-light hover:opacity-80 transition-opacity">hello@axels.com</a>
                   </div>
-                </CardContent>
-              </Card>
+                  <div className="flex items-center space-x-4">
+                    <Phone className="w-5 h-5 text-foreground stroke-[1.5]" />
+                    <a href="tel:+18005550199" className="text-foreground font-light hover:opacity-80 transition-opacity">+1 (800) 555-0199</a>
+                  </div>
+                </div>
+              </div>
 
-              <div className="bg-gradient-to-br from-primary/10 to-orange-500/10 rounded-[2rem] p-8 text-center border border-primary/10">
-                <Heart className="w-8 h-8 text-primary mx-auto mb-4" />
-                <h4 className="font-black text-sm uppercase tracking-wider mb-2">Made with Care</h4>
-                <p className="text-xs text-muted-foreground">Every interaction matters to us. Thank you for supporting our small business!</p>
+              <div className="border-t border-border pt-8">
+                <h3 className="text-[10px] uppercase tracking-widest text-muted-foreground mb-4">Our Boutiques</h3>
+                <div className="space-y-6 text-foreground font-light">
+                  <div>
+                    <p className="font-medium mb-1">New York</p>
+                    <p className="text-muted-foreground">123 Fifth Avenue, Suite 400<br/>New York, NY 10003</p>
+                  </div>
+                  <div>
+                    <p className="font-medium mb-1">London</p>
+                    <p className="text-muted-foreground">45 Bond Street<br/>London, W1S 4AR</p>
+                  </div>
+                </div>
               </div>
             </div>
+
           </div>
         </div>
       </section>

@@ -1,59 +1,91 @@
-
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import HeroSkeleton from '@/components/skeletons/HeroSkeleton';
+import PageTransition from '@/components/PageTransition';
 
 const Hero = () => {
+  // Track load state for both hero images
+  const [leftLoaded, setLeftLoaded] = useState(false);
+  const [rightLoaded, setRightLoaded] = useState(false);
+  const bothLoaded = leftLoaded && rightLoaded;
+
   return (
-    <section className="relative h-[85vh] sm:h-[90vh] flex items-end justify-center overflow-hidden pb-12 sm:pb-24">
-      {/* Background Image Container */}
-      <div className="absolute inset-0 z-0">
-        <img
-          src="/images/hero-bg.jpg"
-          alt="Fairine Enterprise Premium Home Care Products Ghana"
-          className="w-full h-full object-cover object-center"
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?auto=format&fit=crop&q=80&w=2000';
-          }}
-        />
-        {/* Deep Bottom Gradient for Contrast */}
-        <div className="absolute inset-0 bg-black/20"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
-      </div>
+    <PageTransition>
+      {/* Show shimmer skeleton until both images are ready */}
+      {!bothLoaded && (
+        <div className="absolute inset-0 z-10 pointer-events-none">
+          <HeroSkeleton />
+        </div>
+      )}
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="max-w-xl mx-auto text-center flex flex-col items-center">
-          <h1 className="text-4xl sm:text-7xl font-black text-white mb-2 leading-tight tracking-tight drop-shadow-2xl">
-            Effective Soaps & Cleaning Detergents
-          </h1>
+      <section className="grid grid-cols-1 sm:grid-cols-2 min-h-[120vh] sm:min-h-[85vh] overflow-hidden gap-2 transition-colors duration-500">
+        {/* Left Panel */}
+        <div className="relative flex flex-col justify-center p-8 sm:p-12 md:p-16 sm:aspect-auto sm:min-h-full group overflow-hidden">
+          <div className="absolute inset-0 bg-[#FAF9F7] transition-colors duration-500">
+            <img
+              src="/assets/lp.avif"
+              alt="New Arrivals"
+              loading="eager"
+              decoding="async"
+              onLoad={() => setLeftLoaded(true)}
+              className={`w-full h-full object-cover group-hover:scale-105 transition-all duration-1000 ${bothLoaded ? 'opacity-100' : 'opacity-0'}`}
+            />
+          </div>
 
-          <p className="text-sm sm:text-xl text-white/90 mb-8 max-w-md font-medium tracking-wide drop-shadow-lg">
-            Shop high-performance liquid soaps and powerful cleaning detergents. Manufactured in Ghana for ultimate cleanliness.
-          </p>
-
-          <div className="flex flex-row items-center justify-center gap-3 w-full mb-8">
-            <Link to="/shop" className="flex-1 sm:flex-none">
+          <div className="relative z-10 text-white text-center">
+            <p className="text-[11px] uppercase tracking-[0.3em] mb-4 font-medium opacity-90">
+              Trends For You
+            </p>
+            <h2 className="text-4xl sm:text-5xl lg:text-7xl font-serif mb-8 leading-[1.1] tracking-tight">
+              Discover Your<br />Perfect Style
+            </h2>
+            <Link to="/shop">
               <Button
-                size="lg"
-                className="w-full sm:w-36 h-10 gradient-warm text-white font-bold rounded-xl shadow-lg border-0 text-[13px] uppercase tracking-wide"
+                variant="outline"
+                className="border-white border text-white rounded-none px-10 py-6 h-auto text-[11px] uppercase tracking-[0.2em] font-semibold bg-transparent hover:bg-white hover:text-black transition-colors"
               >
                 Shop Now
               </Button>
             </Link>
+          </div>
+        </div>
 
-            <Link to="/about" className="flex-1 sm:flex-none">
+        {/* Right Panel */}
+        <div className="relative flex flex-col justify-center items-start p-9 sm:p-12 md:p-16 px-10 md:px-16 sm:aspect-auto sm:min-h-full group overflow-hidden">
+          <div className="absolute inset-0 bg-muted">
+            <img
+              src="/assets/rp.avif"
+              alt="Golden Memory"
+              loading="eager"
+              decoding="async"
+              onLoad={() => setRightLoaded(true)}
+              className={`w-full h-full object-cover object-center group-hover:scale-105 transition-all duration-1000 ${bothLoaded ? 'opacity-100' : 'opacity-0'}`}
+            />
+          </div>
+
+          <div className="relative z-10 text-foreground transition-colors duration-500">
+            <p className="text-[12px] uppercase text-left tracking-widest mb-4 font-medium opacity-80">
+              For Her
+            </p>
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-serif mb-8 leading-[0.9] tracking-tight">
+              Golden<br />Memory
+            </h2>
+            <p className="text-[13px] tracking-widest mb-10 font-medium opacity-80 max-w-[200px] md:max-w-[320px] leading-loose">
+              Indulge in the opulence of Golden Memory, a mesmerizing jewelry collection fit for a queen.
+            </p>
+            <Link to="/shop">
               <Button
                 variant="outline"
-                size="lg"
-                className="w-full sm:w-36 h-10 bg-white/5 border border-white/40 text-white hover:bg-white hover:text-black font-bold rounded-xl transition-all duration-300 text-[13px] uppercase tracking-wide"
+                className="border-foreground border text-foreground rounded-none px-8 py-4 h-auto text-[11px] uppercase tracking-[0.2em] font-bold bg-transparent hover:bg-foreground hover:text-background transition-colors"
               >
-                Learn More
+                Shop Collection
               </Button>
             </Link>
           </div>
-
         </div>
-      </div>
-    </section>
+      </section>
+    </PageTransition>
   );
 };
 

@@ -3,7 +3,7 @@ export interface ProductVariant {
     volume: string;
     price: number;
     bulkPackSize: number;
-    image: string;
+    image?: string;
 }
 
 export interface Product {
@@ -22,63 +22,101 @@ export interface Product {
 export const products: Product[] = [
     {
         id: 1,
-        name: 'Fairine Liquid Soap',
-        category: 'Home Care',
-        description: 'High-quality multi-purpose liquid soap with a refreshing fragrance. Effective for washing dishes, hands, and various surfaces.',
+        name: 'Femme Chronos Watch',
+        category: 'Watches',
+        description: 'A sophisticated timepiece blending classic design with modern precision.',
         variants: [
-            { volume: '500ml', price: 8, bulkPackSize: 12, image: '/assets/liquid-soap-500ml.webp' },
-            { volume: '1L', price: 12, bulkPackSize: 8, image: '/assets/liquid-soap-1l.webp' },
-            { volume: '4L', price: 45, bulkPackSize: 4, image: '/assets/liquid-soap-4l.webp' }
+            { volume: 'Standard', price: 199.99, bulkPackSize: 1, image: '/assets/Femme Chronos Watch.avif' }
         ],
         inStock: true,
         featured: true,
-        rating: 4.8,
+        rating: 4.9,
         reviews: 124,
-        image: '/assets/liquid-soap-1l.webp'
+        image: '/assets/Femme Chronos Watch.avif'
     },
     {
         id: 2,
-        name: 'Fairine Floor Cleaner',
-        category: 'Home Care',
-        description: 'Powerful disinfectant floor cleaner that removes tough stains and leaves a long-lasting fresh scent. Safe for all floor types.',
+        name: 'Vintage Cuff Ring',
+        category: 'Rings',
+        description: 'A timeless vintage-inspired gold ring that wraps elegantly around your finger.',
         variants: [
-            { volume: '1L', price: 15, bulkPackSize: 8, image: '/assets/floor-cleaner-1l.webp' },
-            { volume: '5L', price: 60, bulkPackSize: 4, image: '/assets/floor-cleaner-5l.webp' }
+            { volume: 'Standard', price: 79.99, bulkPackSize: 1, image: '/assets/Vintage Cuff Ring.avif' }
         ],
         inStock: true,
         featured: true,
         rating: 4.9,
         reviews: 89,
-        image: '/assets/floor-cleaner-1l.webp'
+        image: '/assets/Vintage Cuff Ring.avif'
     },
     {
         id: 3,
-        name: 'Fairine Fabric Softener',
-        category: 'Fabric Care',
-        description: 'Premium fabric companion that keeps your clothes smelling fresh and feeling soft after every wash. Protects fibers and reduces static.',
+        name: 'Pearl Stud Earrings',
+        category: 'Earrings',
+        description: 'Delicate pearl studs that add a touch of grace to any ensemble.',
         variants: [
-            { volume: '500ml', price: 14, bulkPackSize: 12, image: '/assets/afterwash-500ml.webp' },
-            { volume: '1L', price: 28, bulkPackSize: 10, image: '/assets/afterwash-1l.webp' }
+            { volume: 'Standard', price: 49.99, bulkPackSize: 1, image: '/assets/Pearl Stud Earrings.avif' }
         ],
         inStock: true,
         featured: true,
         rating: 4.8,
         reviews: 203,
-        image: '/assets/afterwash-500ml.webp'
+        image: '/assets/Pearl Stud Earrings.avif'
     },
     {
         id: 4,
-        name: 'Fairine Shower Gel',
-        category: 'Personal Care',
-        description: 'Gentle and moisturizing shower gel formulated for daily use. Leaves skin feeling clean, smooth, and beautifully scented.',
+        name: 'Birthday Charm Bracelet',
+        category: 'Bracelets',
+        description: 'A charming bracelet to commemorate special moments and milestones.',
         variants: [
-            { volume: '500ml', price: 20, bulkPackSize: 12, image: '/assets/shower-gel-500ml.webp' },
-            { volume: '750ml', price: 28, bulkPackSize: 10, image: '/assets/shower-gel-750ml.webp' }
+            { volume: 'Standard', price: 120.00, bulkPackSize: 1, image: '/assets/Birthday Charm Bracelet.avif' }
         ],
         inStock: true,
         featured: true,
         rating: 4.7,
         reviews: 156,
-        image: '/assets/shower-gel-500ml.webp'
+        image: '/assets/Birthday Charm Bracelet.avif'
+    },
+    {
+        id: 5,
+        name: 'Stack Diamond Ring',
+        category: 'Rings',
+        description: 'An exquisite diamond ring designed for layering or making a solo statement.',
+        variants: [
+            { volume: 'Standard', price: 680.00, bulkPackSize: 1, image: '/assets/Stack Diamond Ring.avif' }
+        ],
+        inStock: true,
+        featured: true,
+        rating: 4.9,
+        reviews: 312,
+        image: '/assets/Stack Diamond Ring.avif'
+    },
+    {
+        id: 6,
+        name: 'Diamond Drop Earrings',
+        category: 'Earrings',
+        description: 'Brilliant diamonds suspended in a graceful drop design.',
+        variants: [
+            { volume: 'Standard', price: 410.00, bulkPackSize: 1, image: '/assets/Diamond Drop Earrings.avif' }
+        ],
+        inStock: true,
+        featured: true,
+        rating: 4.8,
+        reviews: 178,
+        image: '/assets/Diamond Drop Earrings.avif'
+    },
+    {
+        id: 7,
+        name: 'Gold Pearl Ring',
+        category: 'Rings',
+        description: 'A stunning gold ring featuring a lustrous pearl centerpiece.',
+        variants: [
+            { volume: 'Standard', price: 1850, bulkPackSize: 1, image: '/assets/Gold Pearl Ring.avif' }
+        ],
+        inStock: true,
+        featured: false,
+        rating: 4.9,
+        reviews: 94,
+        image: '/assets/lp-mb.avif' // Fallback for now if Gold Pearl Ring.avif is missing
     }
 ];
+

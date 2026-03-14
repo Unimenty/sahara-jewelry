@@ -15,15 +15,15 @@ const SEO = ({
     title,
     description,
     canonical,
+    ogImage = '',
     ogType = 'website',
-    ogImage = '/assets/logo-clean.png',
     structuredData,
     noindex = false,
     keywords,
 }: SEOProps) => {
-    const siteName = 'Fairine Enterprise';
-    const fullTitle = title ? `${title} | ${siteName}` : `${siteName} | Buy Quality Soap & Cleaning Detergents in Ghana`;
-    const siteUrl = 'https://fairine.com'; // Replace with actual production URL if different
+    const siteName = 'Axels';
+    const fullTitle = title ? `${title} | ${siteName}` : `${siteName} | Fine Minimalist Jewelry`;
+    const siteUrl = 'https://axels.framer.website'; 
     const currentUrl = canonical ? `${siteUrl}${canonical}` : siteUrl;
 
     return (
@@ -56,10 +56,10 @@ const SEO = ({
                     {JSON.stringify({
                         "@context": "https://schema.org",
                         "@type": "Organization",
-                        "name": "Fairine Enterprise",
-                        "url": "https://fairine.com",
-                        "logo": "https://fairine.com/assets/logo-clean.png",
-                        "description": "Manufacturer and supplier of high-quality liquid soaps and cleaning detergents in Ghana.",
+                        "name": "Axels",
+                        "url": "https://axels.framer.website",
+                        "logo": "https://axels.framer.website/logo.png",
+                        "description": "Minimalist handcrafted fine jewelry suitable for the modern era.",
                         "address": {
                             "@type": "PostalAddress",
                             "addressLocality": "Accra",

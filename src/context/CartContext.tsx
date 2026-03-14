@@ -28,12 +28,12 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
-    const savedCart = localStorage.getItem('fairine-cart');
+    const savedCart = localStorage.getItem('axels-cart');
     return savedCart ? JSON.parse(savedCart) : [];
   });
 
   useEffect(() => {
-    localStorage.setItem('fairine-cart', JSON.stringify(cartItems));
+    localStorage.setItem('axels-cart', JSON.stringify(cartItems));
   }, [cartItems]);
 
   const addToCart = (newItem: CartItem) => {

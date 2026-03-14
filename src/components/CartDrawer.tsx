@@ -36,7 +36,7 @@ const CartDrawer: React.FC = () => {
   const handleWhatsAppCheckout = () => {
     if (cartItems.length === 0) return;
 
-    const message = `Hi Fairine Enterprise! 🛍️\n\nI'd like to place an order for the following items:\n\n${cartItems
+    const message = `Hi Axels! 🛍️\n\nI'd like to place an order for the following items:\n\n${cartItems
       .map(
         (item) =>
           `• *${item.name}*\n  ${item.variant.volume}${
@@ -68,7 +68,7 @@ const CartDrawer: React.FC = () => {
       customer_address: customerInfo.address,
       order_details: orderItems,
       total_price: `GHC ${totalPrice.toFixed(2)}`,
-      to_email: 'fairineenterprise@gmail.com', // Default from contact page
+      to_email: 'hello@axels.com', // Default from contact page
     };
 
     try {
