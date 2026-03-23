@@ -28,7 +28,7 @@ const App = () => (
     <QueryClientProvider client={queryClient}>
       <CartProvider>
         <WishlistProvider>
-          <ThemeProvider defaultTheme="dark" storageKey="axels-ui-theme">
+          <ThemeProvider defaultTheme="dark" storageKey="sahara-ui-theme">
             <TooltipProvider>
               <Toaster />
               <Sonner />

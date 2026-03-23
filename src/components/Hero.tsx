@@ -11,7 +11,7 @@ const Hero = () => {
       <div className="absolute inset-0 z-0">
         <img
           src="/images/hero-bg.png"
-          alt="Luxury Jewelry"
+          alt="Luxury Jewellery"
           className="w-full h-full object-cover opacity-60 grayscale-[40%]"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f0f] via-transparent to-transparent opacity-80" />

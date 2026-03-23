@@ -16,7 +16,7 @@ const Wishlist = () => {
     <div className="bg-background min-h-screen pt-32">
       <SEO
         title="My Wishlist | Sahara Jewellery"
-        description="Your curated list of favorite Sahara jewelry pieces."
+        description="Your curated list of favorite Sahara jewellery pieces."
         canonical="/wishlist"
       />
 

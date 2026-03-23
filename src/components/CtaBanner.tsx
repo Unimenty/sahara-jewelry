@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 const CtaBanner = () => {
   return (
     <section className="relative w-full h-[500px] overflow-hidden flex items-center justify-center">
-      {/* Mixed jewelry background */}
+      {/* Mixed jewellery background */}
       <img
         src="/assets/wedding-bg.avif"
         alt="Wedding Background"

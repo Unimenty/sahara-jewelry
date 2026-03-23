@@ -21,9 +21,9 @@ const SEO = ({
     noindex = false,
     keywords,
 }: SEOProps) => {
-    const siteName = 'Axels';
-    const fullTitle = title ? `${title} | ${siteName}` : `${siteName} | Fine Minimalist Jewelry`;
-    const siteUrl = 'https://axels.framer.website'; 
+    const siteName = 'Sahara';
+    const fullTitle = title ? `${title} | ${siteName}` : `${siteName} | Fine Minimalist Jewellery`;
+    const siteUrl = 'https://sahara.framer.website'; 
     const currentUrl = canonical ? `${siteUrl}${canonical}` : siteUrl;
 
     return (
@@ -56,10 +56,10 @@ const SEO = ({
                     {JSON.stringify({
                         "@context": "https://schema.org",
                         "@type": "Organization",
-                        "name": "Axels",
-                        "url": "https://axels.framer.website",
-                        "logo": "https://axels.framer.website/logo.png",
-                        "description": "Minimalist handcrafted fine jewelry suitable for the modern era.",
+                        "name": "Sahara",
+                        "url": "https://sahara.framer.website",
+                        "logo": "https://sahara.framer.website/logo.png",
+                        "description": "Minimalist handcrafted fine jewellery suitable for the modern era.",
                         "address": {
                             "@type": "PostalAddress",
                             "addressLocality": "Accra",

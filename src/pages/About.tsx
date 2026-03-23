@@ -107,7 +107,7 @@ const About = () => {
                 Our journey began where the earth meets the sky. Sahara Jewellery is an invitation to explore the raw beauty of minimalist design combined with the opulence of solid gold.
               </p>
               <p>
-                We believe that every piece should tell a story of endurance. Like the desert itself, our jewelry is constant, timeless, and designed to withstand the elements of passing trends.
+                We believe that every piece should tell a story of endurance. Like the desert itself, our jewellery is constant, timeless, and designed to withstand the elements of passing trends.
               </p>
             </div>
           </motion.div>
@@ -193,7 +193,7 @@ const About = () => {
                 We believe in the power of pure materials. Our palette is restricted to the highest quality 18k gold and ethically sourced diamonds, allowing the natural radiance of the desert sun to be mirrored in every piece.
               </p>
               <p>
-                No compromise is made in the selection of our stones. Each diamond is hand-picked for its clarity and fire, ensuring that your jewelry sparkles with an eternal light.
+                No compromise is made in the selection of our stones. Each diamond is hand-picked for its clarity and fire, ensuring that your jewellery sparkles with an eternal light.
               </p>
             </div>
           </motion.div>

@@ -1,3 +1,3 @@
-# Axels
+# Sahara
 
-A minimalist fine jewelry e-commerce website.
+A minimalist fine jewellery e-commerce website.

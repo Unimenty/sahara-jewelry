@@ -80,7 +80,7 @@ const Shop = () => {
         {filteredProducts.length === 0 && (
           <div className="text-center py-32">
             <h3 className="text-3xl font-serif text-white mb-4 italic uppercase tracking-widest">No pieces found</h3>
-            <p className="text-white/30 text-[10px] font-sans uppercase tracking-[0.2em] mb-12 px-8">We couldn't find any jewelry matching this category.</p>
+            <p className="text-white/30 text-[10px] font-sans uppercase tracking-[0.2em] mb-12 px-8">We couldn't find any jewellery matching this category.</p>
             <button
               className="button-sahara mx-auto group"
               onClick={() => handleCategoryClick('All')}

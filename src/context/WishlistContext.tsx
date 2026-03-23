@@ -13,14 +13,14 @@ const WishlistContext = createContext<WishlistContextType | undefined>(undefined
 export const WishlistProvider = ({ children }: { children: ReactNode }) => {
   const [wishlist, setWishlist] = useState<string[]>(() => {
     if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('axels-wishlist');
+      const saved = localStorage.getItem('sahara-wishlist');
       return saved ? JSON.parse(saved) : [];
     }
     return [];
   });
 
   useEffect(() => {
-    localStorage.setItem('axels-wishlist', JSON.stringify(wishlist));
+    localStorage.setItem('sahara-wishlist', JSON.stringify(wishlist));
   }, [wishlist]);
 
   const addToWishlist = (productId: string) => {

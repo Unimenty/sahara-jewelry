@@ -7,13 +7,13 @@ const MiddleBanner = () => {
       {/* Background Image */}
       <img
         src="/assets/minimal.avif"
-        alt="Minimalist Jewelry"
+        alt="Minimalist Jewellery"
         className="w-full h-full object-cover"
       />
 
       {/* Absolute Card */}
       <div className="absolute top-1/2 -translate-y-1/2 right-10 md:right-20 lg:right-32 bg-background/95 backdrop-blur-sm p-10 md:p-16 max-w-[450px] shadow-2xl transition-colors duration-500">
-        <h2 className="text-4xl md:text-5xl font-serif mb-6 leading-tight text-foreground">Minimalist<br />Jewelry</h2>
+        <h2 className="text-4xl md:text-5xl font-serif mb-6 leading-tight text-foreground">Minimalist<br />Jewellery</h2>
         <p className="text-[12px] text-muted-foreground tracking-[0.2em] uppercase font-medium mb-10 leading-relaxed">
           Designed for your daily elegance. Simplicity that speaks volumes about your style.
         </p>

@@ -14,7 +14,7 @@ const Index = () => {
     <div className="bg-background">
       <SEO
         title="Sahara Jewellery | The Golden Desert Aesthetic"
-        description="Discover our luxurious collection of desert-inspired jewelry, handcrafted for timeless elegance."
+        description="Discover our luxurious collection of desert-inspired jewellery, handcrafted for timeless elegance."
         canonical="/"
       />
 
