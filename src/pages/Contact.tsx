@@ -1,177 +1,154 @@
+import { motion } from 'framer-motion';
+import { Mail, MessageCircle, MapPin, ArrowRight } from 'lucide-react';
 import SEO from '@/components/SEO';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Phone, Mail } from 'lucide-react';
-import { useState } from 'react';
-import { useToast } from '@/hooks/use-toast';
-import emailjs from '@emailjs/browser';
 
-const Contact = () => {
-  const { toast } = useToast();
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    const templateParams = {
-      from_name: formData.name,
-      from_email: formData.email,
-      message: formData.message,
-      to_email: 'hello@axels.com',
-    };
-
-    try {
-      await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID, 
-        templateParams,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-      );
-
-      toast({
-        title: "Message Sent",
-        description: "Thank you for reaching out. We will respond shortly.",
-      });
-
-      setFormData({
-        name: '',
-        email: '',
-        message: ''
-      });
-    } catch (error) {
-      console.error('EmailJS Error:', error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "There was an issue sending your message. Please try again.",
-      });
-    } finally {
-      setIsSubmitting(false);
+const SaharaContact = () => {
+  const showrooms = [
+    {
+      name: "The Accra Atelier",
+      location: "391 Cantonments Rd, Accra, Ghana",
+      image: "/images/622947345_18093480613993200_3568158684909229554.jpg",
+      mapUrl: "https://goo.gl/maps/accra",
+      tag: "FLAGSHIP"
+    },
+    {
+      name: "The Kumasi Vault",
+      location: "12 Adum St, Kumasi, Ghana",
+      image: "/images/630138431_18095391541993200_672511194907843518.jpg",
+      mapUrl: "https://goo.gl/maps/kumasi",
+      tag: "THE VAULT"
     }
-  };
-
-  const handleChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-  };
+  ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <SEO
-        title="Contact"
-        description="Get in touch with the Axels jewelry concierge. We are here to assist with bespoke commissions, styling advice, and support."
-        keywords="contact Axels, bespoke jewelry, fine jewelry concierge, support"
+    <div className="min-h-screen bg-[#0f0f0f] pt-32 pb-48 px-6 md:px-12">
+      <SEO 
+        title="Contact | Sahara Jewellery"
+        description="Direct concierge access to Sahara Jewellery. Connect with us via WhatsApp or visit our Ghana showrooms."
         canonical="/contact"
       />
 
-      {/* Hero Section */}
-      <section className="bg-background pt-24 pb-16 sm:border-b border-border text-center">
-        <div className="container mx-auto px-4">
-          <p className="text-[10px] uppercase tracking-[0.2em] mb-4 text-muted-foreground">Concierge Services</p>
-          <h1 className="text-4xl sm:text-6xl font-serif text-foreground mb-6 leading-tight">
-            Contact Us
+      {/* Centered Header Section */}
+      <div className="max-w-[1440px] mx-auto mb-32 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex flex-col items-center"
+        >
+          <h1 className="text-[clamp(3.5rem,10vw,7rem)] font-serif font-black text-white leading-none mb-8 uppercase tracking-[-0.04em]">
+            GET IN TOUCH
           </h1>
-          <p className="text-muted-foreground font-light max-w-lg mx-auto">
-            Whether inquiring about a bespoke commission or a piece from our collection, our dedicated concierge team is at your standard.
-          </p>
-        </div>
-      </section>
-
-      {/* Main Content */}
-      <section className="py-20">
-        <div className="container mx-auto px-4 sm:px-8 max-w-5xl">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            
-            {/* Form Side */}
-            <div className="border border-border p-8 sm:p-12">
-              <h2 className="text-2xl font-serif text-foreground mb-8">Send an Inquiry</h2>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="space-y-2">
-                  <Label htmlFor="name" className="text-[10px] uppercase tracking-widest text-muted-foreground">Name</Label>
-                  <Input
-                    id="name"
-                    value={formData.name}
-                    onChange={(e) => handleChange('name', e.target.value)}
-                    className="rounded-none border-border bg-transparent focus-visible:ring-0 focus-visible:border-foreground h-12"
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="email" className="text-[10px] uppercase tracking-widest text-muted-foreground">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => handleChange('email', e.target.value)}
-                    className="rounded-none border-border bg-transparent focus-visible:ring-0 focus-visible:border-foreground h-12"
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="message" className="text-[10px] uppercase tracking-widest text-muted-foreground">Message</Label>
-                  <Textarea
-                    id="message"
-                    value={formData.message}
-                    onChange={(e) => handleChange('message', e.target.value)}
-                    rows={6}
-                    className="rounded-none border-border bg-transparent focus-visible:ring-0 focus-visible:border-foreground p-4 resize-none"
-                    required
-                  />
-                </div>
-                <Button 
-                  type="submit" 
-                  disabled={isSubmitting}
-                  className="w-full bg-foreground text-background font-medium rounded-none uppercase tracking-widest text-xs h-12 hover:bg-foreground/90 transition-colors"
-                >
-                  {isSubmitting ? 'Sending...' : 'Submit Inquiry'}
-                </Button>
-              </form>
-            </div>
-
-            {/* Details Side */}
-            <div className="flex flex-col justify-center space-y-12">
-              <div>
-                <h3 className="text-[10px] uppercase tracking-widest text-muted-foreground mb-4">Direct Communication</h3>
-                <div className="space-y-6">
-                  <div className="flex items-center space-x-4">
-                    <Mail className="w-5 h-5 text-foreground stroke-[1.5]" />
-                    <a href="mailto:hello@axels.com" className="text-foreground font-light hover:opacity-80 transition-opacity">hello@axels.com</a>
-                  </div>
-                  <div className="flex items-center space-x-4">
-                    <Phone className="w-5 h-5 text-foreground stroke-[1.5]" />
-                    <a href="tel:+18005550199" className="text-foreground font-light hover:opacity-80 transition-opacity">+1 (800) 555-0199</a>
-                  </div>
-                </div>
-              </div>
-
-              <div className="border-t border-border pt-8">
-                <h3 className="text-[10px] uppercase tracking-widest text-muted-foreground mb-4">Our Boutiques</h3>
-                <div className="space-y-6 text-foreground font-light">
-                  <div>
-                    <p className="font-medium mb-1">New York</p>
-                    <p className="text-muted-foreground">123 Fifth Avenue, Suite 400<br/>New York, NY 10003</p>
-                  </div>
-                  <div>
-                    <p className="font-medium mb-1">London</p>
-                    <p className="text-muted-foreground">45 Bond Street<br/>London, W1S 4AR</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+          
+          <div className="flex items-center gap-5 mb-20 opacity-40">
+            <div className="h-[1px] w-16 bg-primary" />
+            <p className="text-[11px] tracking-[0.5em] font-bold uppercase text-white font-sans">
+              MON — SAT: 10:00 — 20:00 GMT
+            </p>
+            <div className="h-[1px] w-16 bg-primary" />
           </div>
-        </div>
-      </section>
+
+          {/* Contact Cards Grid (Side-by-side) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-6xl mx-auto">
+            {/* WhatsApp Card */}
+            <motion.a 
+              href="https://wa.me/233546865035" 
+              whileHover={{ y: -5 }}
+              className="group relative flex flex-col items-center justify-center p-14 md:p-20 rounded-[3rem] bg-[#25D366]/[0.02] border border-[#25D366]/10 hover:border-[#25D366]/40 transition-all duration-700 overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 p-10 opacity-5">
+                 <MessageCircle size={140} />
+              </div>
+              <div className="w-16 h-16 rounded-full bg-[#25D366]/10 flex items-center justify-center mb-10 group-hover:bg-[#25D366] transition-colors duration-700">
+                <MessageCircle size={28} className="text-[#25D366] group-hover:text-white" />
+              </div>
+              <h3 className="text-[11px] tracking-[0.5em] font-bold text-[#25D366] uppercase mb-3 font-sans">WHATSAPP CONCIERGE</h3>
+              <p className="text-2xl font-serif text-white mb-8 uppercase tracking-tighter">THE SAHARA EDIT</p>
+              <span className="text-sm font-sans font-light tracking-[0.3em] text-white/30 group-hover:text-white transition-colors">
+                +233 54 686 5035
+              </span>
+            </motion.a>
+
+            {/* Email Card */}
+            <motion.a 
+              href="mailto:concierge@saharajewellery.com" 
+              whileHover={{ y: -5 }}
+              className="group relative flex flex-col items-center justify-center p-14 md:p-20 rounded-[3rem] bg-white/[0.01] border border-white/5 hover:border-primary/40 transition-all duration-700 overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 p-10 opacity-5">
+                 <Mail size={140} />
+              </div>
+              <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-10 group-hover:bg-primary transition-colors duration-700">
+                <Mail size={28} className="text-primary group-hover:text-white" />
+              </div>
+              <h3 className="text-[11px] tracking-[0.5em] font-bold text-primary uppercase mb-3 font-sans">DIGITAL ATELIER</h3>
+              <p className="text-2xl font-serif text-white mb-8 uppercase tracking-tighter">GENERAL INQUIRIES</p>
+              <span className="text-sm font-sans font-light tracking-[0.3em] text-white/30 group-hover:text-white transition-colors">
+                CONCIERGE@SAHARAJEWELLERY.COM
+              </span>
+            </motion.a>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Outlets Transition Heading */}
+      <div className="max-w-[1440px] mx-auto mb-20 text-center">
+          <h3 className="text-primary text-[11px] tracking-[0.7em] font-bold uppercase mb-6 font-sans">GLOBAL LOCATIONS</h3>
+          <h2 className="text-[clamp(2.5rem,6vw,5rem)] font-serif font-black text-white uppercase tracking-tighter">
+            STEP INTO THE <span className="italic font-light lowercase">atelier</span>
+          </h2>
+      </div>
+
+      {/* Showroom Stack (Landscape Cards) */}
+      <div className="max-w-[1440px] mx-auto space-y-12 md:space-y-20">
+        {showrooms.map((showroom, idx) => (
+          <motion.a
+            key={showroom.name}
+            href={showroom.mapUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
+            viewport={{ once: true }}
+            className="group relative block w-full aspect-[4/5] md:aspect-[21/9] overflow-hidden rounded-[3rem] md:rounded-[4rem] border border-white/5 bg-[#0a0a0a]"
+          >
+            {/* Background Image */}
+            <div className="absolute inset-0 z-0">
+               <img 
+                 src={showroom.image} 
+                 alt={showroom.name}
+                 className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:scale-110 group-hover:opacity-60 transition-all duration-[2500ms] ease-out"
+               />
+               <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90" />
+            </div>
+
+            {/* Content Overlay */}
+            <div className="absolute inset-0 z-10 p-12 md:p-20 flex flex-col justify-end items-start">
+               <span className="text-primary text-[11px] tracking-[0.7em] font-bold uppercase mb-6 opacity-0 group-hover:opacity-100 translate-y-6 group-hover:translate-y-0 transition-all duration-700 font-sans">
+                  {showroom.tag}
+               </span>
+               <h2 className="text-4xl md:text-6xl font-serif text-white mb-3 uppercase tracking-tighter leading-none font-black">
+                  {showroom.name}
+               </h2>
+               <div className="flex items-center gap-3 text-white/40 text-[11px] md:text-xs font-sans font-bold tracking-[0.4em] uppercase mb-10">
+                  <MapPin size={14} className="text-primary" />
+                  {showroom.location}
+               </div>
+
+               <button className="button-sahara group">
+                  <span>VISIT SHOWROOM</span>
+                  <ArrowRight className="w-4 h-4 translate-y-[1px] group-hover:translate-x-3 transition-transform duration-500" />
+               </button>
+
+               <div className="absolute top-12 right-12 md:top-20 md:right-20 glass p-5 md:p-8 rounded-full opacity-0 group-hover:opacity-100 scale-90 group-hover:scale-100 transition-all duration-700">
+                  <ArrowRight className="text-primary group-hover:-rotate-45 transition-transform duration-500" />
+               </div>
+            </div>
+          </motion.a>
+        ))}
+      </div>
     </div>
   );
 };
 
-export default Contact;
+export default SaharaContact;

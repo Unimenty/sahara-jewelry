@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import emailjs from '@emailjs/browser';
 import {
   Sheet,
   SheetContent,
@@ -7,88 +6,17 @@ import {
   SheetTitle,
   SheetFooter,
 } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
-import { ShoppingCart, Plus, Minus, Trash2, ArrowLeft, Send, CheckCircle2 } from "lucide-react";
+import { ShoppingBag, Plus, Minus, Trash2, ArrowLeft, CheckCircle2 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 
 type CheckoutStep = 'cart' | 'details' | 'success';
 
 const CartDrawer: React.FC = () => {
   const { cartItems, removeFromCart, updateQuantity, totalPrice, totalItems, isDrawerOpen, setDrawerOpen, clearCart } = useCart();
   const [step, setStep] = useState<CheckoutStep>('cart');
-  const [isSubmitting, setIsSubmitting] = useState(false);
   
-  const [customerInfo, setCustomerInfo] = useState({
-    name: '',
-    phone: '',
-    address: '',
-    email: '',
-    notes: ''
-  });
-
-  const WHATSAPP_NUMBER = "233261233032";
-
-  const handleWhatsAppCheckout = () => {
-    if (cartItems.length === 0) return;
-
-    const message = `Hi Axels! 🛍️\n\nI'd like to place an order for the following items:\n\n${cartItems
-      .map(
-        (item) =>
-          `• *${item.name}*\n  ${item.variant.volume}${
-            item.variant.packSize > 1 ? ` (Pack of ${item.variant.packSize})` : " (Single)"
-          }\n  Qty: ${item.quantity} | Total: GHC ${(item.price * item.quantity).toFixed(2)}`
-      )
-      .join("\n\n")}\n\n*Order Total: GHC ${totalPrice.toFixed(2)}*\n\n*Customer Details:*\n• Name: ${customerInfo.name || 'Not provided'}\n• Phone: ${customerInfo.phone || 'Not provided'}\n• Address: ${customerInfo.address || 'Not provided'}\n\nPlease let me know the next steps for delivery and payment. Thank you!`;
-
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
-    
-    window.open(whatsappUrl, "_blank");
-  };
-
-  const handleSilentCheckout = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!customerInfo.name || !customerInfo.phone || !customerInfo.address) return;
-
-    setIsSubmitting(true);
-    
-    // Formatting the order details for the email
-    const orderItems = cartItems
-      .map(item => `${item.name} (${item.variant.volume}, ${item.variant.packSize > 1 ? `Pack of ${item.variant.packSize}` : 'Single'}) x${item.quantity}: GHC ${(item.price * item.quantity).toFixed(2)}`)
-      .join('\n');
-
-    const templateParams = {
-      customer_name: customerInfo.name,
-      customer_phone: customerInfo.phone,
-      customer_address: customerInfo.address,
-      order_details: orderItems,
-      total_price: `GHC ${totalPrice.toFixed(2)}`,
-      to_email: 'hello@axels.com', // Default from contact page
-    };
-
-    try {
-      await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        templateParams,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-      );
-
-      setStep('success');
-      clearCart();
-    } catch (error) {
-      console.error('EmailJS Error:', error);
-      alert('There was an issue sending your order. Please try again or use the WhatsApp option.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
   const handleReset = () => {
     setStep('cart');
     setDrawerOpen(false);
@@ -101,101 +29,96 @@ const CartDrawer: React.FC = () => {
         setTimeout(() => setStep('cart'), 300);
       }
     }}>
-      <SheetContent className="w-full sm:max-w-md flex flex-col p-0 border-l-0 sm:border-l bg-background">
+      <SheetContent className="w-full sm:max-w-md flex flex-col p-0 border-l border-border/10 bg-background text-foreground">
         
-        {/* Header - Dynamic Title */}
-        <SheetHeader className="p-6 border-b flex-row items-center justify-between space-y-0">
-          <SheetTitle className="text-2xl font-black tracking-tight flex items-center gap-2">
-            {step === 'cart' && (
-              <>
-                <ShoppingCart className="w-6 h-6 text-primary" />
-                Your Cart
-              </>
-            )}
+        {/* Header */}
+        <SheetHeader className="p-8 border-b border-border/10 flex-row items-center justify-between space-y-0 bg-background/50 backdrop-blur-md sticky top-0 z-10">
+          <SheetTitle className="text-xl font-serif tracking-tight flex items-center gap-4 italic uppercase">
+            {step === 'cart' && "Your Bag"}
             {step === 'details' && (
               <>
                 <button onClick={() => setStep('cart')} className="group p-1 mr-1">
                   <ArrowLeft className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
                 </button>
-                Checkout Details
+                Checkout
               </>
             )}
-            {step === 'success' && (
-              <>
-                <CheckCircle2 className="w-6 h-6 text-green-500" />
-                Order Received!
-              </>
-            )}
+            {step === 'success' && "Order Placed"}
           </SheetTitle>
-          {step === 'cart' && totalItems > 0 && <span className="text-sm font-bold bg-primary/10 text-primary px-3 py-1 rounded-full">{totalItems} items</span>}
+          {step === 'cart' && totalItems > 0 && (
+            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+              {totalItems} items
+            </span>
+          )}
         </SheetHeader>
 
-        {/* Scrollable Body Content */}
-        <div className="flex-1 overflow-hidden">
+        {/* Body */}
+        <div className="flex-1 overflow-hidden relative">
           {step === 'cart' && (
             <>
               {cartItems.length === 0 ? (
-                <div className="h-full flex flex-col items-center justify-center p-8 text-center space-y-4">
-                  <div className="bg-muted rounded-full p-6">
-                    <ShoppingCart className="h-12 w-12 text-muted-foreground opacity-10" />
+                <div className="h-full flex flex-col items-center justify-center p-12 text-center space-y-8">
+                  <div className="w-20 h-20 bg-secondary/20 rounded-full flex items-center justify-center opacity-40 blur-[1px]">
+                    <ShoppingBag className="h-10 w-10 text-muted-foreground" />
                   </div>
-                  <div className="space-y-2">
-                    <h3 className="text-xl font-bold">Your cart is empty</h3>
-                    <p className="text-muted-foreground text-sm">Looks like you haven't added any goodness yet.</p>
+                  <div className="space-y-4">
+                    <h3 className="text-2xl font-serif italic">Your bag is empty</h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed max-w-[200px] mx-auto">
+                      Discover our celestial collections and find your next treasure.
+                    </p>
                   </div>
-                  <Button variant="outline" className="mt-4 rounded-xl" onClick={() => setDrawerOpen(false)}>
-                    Continue Shopping
-                  </Button>
+                  <button 
+                    className="button-sahara mt-4 !px-8" 
+                    onClick={() => setDrawerOpen(false)}
+                  >
+                    Start Shopping
+                  </button>
                 </div>
               ) : (
-                <ScrollArea className="h-full p-6">
-                  <div className="space-y-6">
+                <ScrollArea className="h-full p-8">
+                  <div className="space-y-10">
                     {cartItems.map((item) => (
-                      <div key={`${item.id}-${item.variant.volume}-${item.variant.packSize}`} className="flex gap-4">
-                        <div className="h-20 w-20 rounded-2xl overflow-hidden flex-shrink-0 bg-muted">
+                      <div key={`${item.id}-${item.variant.volume}-${item.variant.packSize}`} className="flex gap-6 items-start group">
+                        <div className="h-24 w-24 overflow-hidden flex-shrink-0 bg-secondary/10 p-4">
                           <img
                             src={item.image}
                             alt={item.name}
-                            className="h-full w-full object-cover"
+                            className="h-full w-full object-contain group-hover:scale-110 transition-transform duration-700"
                           />
                         </div>
-                        <div className="flex-1 flex flex-col justify-between py-1">
-                          <div>
+                        <div className="flex-1 flex flex-col justify-between py-1 space-y-4">
+                          <div className="space-y-1">
                             <div className="flex justify-between gap-2">
-                              <h4 className="font-bold text-sm line-clamp-1">{item.name}</h4>
+                              <h4 className="font-serif uppercase tracking-widest text-xs font-bold leading-relaxed">{item.name}</h4>
                               <button 
                                 onClick={() => removeFromCart(item.id, item.variant)}
-                                className="text-muted-foreground hover:text-destructive transition-colors shrink-0"
+                                className="text-muted-foreground/40 hover:text-primary transition-colors shrink-0"
                               >
                                 <Trash2 className="w-4 h-4" />
                               </button>
                             </div>
-                            <p className="text-xs text-muted-foreground mt-0.5">
-                              {item.variant.volume} · {item.variant.packSize === 1 ? 'Single' : `Pack of ${item.variant.packSize}`}
+                            <p className="text-[9px] text-muted-foreground uppercase tracking-widest font-bold">
+                              {item.variant.volume}
                             </p>
                           </div>
                           
-                          <div className="flex items-center justify-between mt-2">
-                            <div className="flex items-center bg-muted/50 rounded-lg p-0.5 border border-border/50">
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                className="h-6 w-6 rounded-md hover:bg-background"
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center border border-border/20 p-1">
+                              <button
+                                className="h-6 w-6 flex items-center justify-center hover:text-primary transition-colors"
                                 onClick={() => updateQuantity(item.id, item.variant, Math.max(1, item.quantity - 1))}
                               >
                                 <Minus className="h-3 w-3" />
-                              </Button>
-                              <span className="w-8 text-center text-xs font-black">{item.quantity}</span>
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                className="h-6 w-6 rounded-md hover:bg-background"
+                              </button>
+                              <span className="w-8 text-center text-[10px] font-bold">{item.quantity}</span>
+                              <button
+                                className="h-6 w-6 flex items-center justify-center hover:text-primary transition-colors"
                                 onClick={() => updateQuantity(item.id, item.variant, item.quantity + 1)}
                               >
                                 <Plus className="h-3 w-3" />
-                              </Button>
+                              </button>
                             </div>
-                            <p className="font-black text-sm text-foreground">GHC {(item.price * item.quantity).toFixed(2)}</p>
+                            <p className="font-serif text-sm">GH₵{(item.price * item.quantity).toFixed(2)}</p>
                           </div>
                         </div>
                       </div>
@@ -206,113 +129,50 @@ const CartDrawer: React.FC = () => {
             </>
           )}
 
-          {step === 'details' && (
-            <ScrollArea className="h-full p-6">
-              <form id="checkout-form" onSubmit={handleSilentCheckout} className="space-y-6">
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="checkout-name" className="text-xs font-black uppercase tracking-widest text-muted-foreground ml-1">Full Name</Label>
-                    <Input 
-                      id="checkout-name" 
-                      placeholder="Your first and last name" 
-                      className="rounded-xl h-12"
-                      required
-                      value={customerInfo.name}
-                      onChange={(e) => setCustomerInfo({...customerInfo, name: e.target.value})}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="checkout-phone" className="text-xs font-black uppercase tracking-widest text-muted-foreground ml-1">Phone Number</Label>
-                    <Input 
-                      id="checkout-phone" 
-                      placeholder="e.g., 026 123 4567" 
-                      className="rounded-xl h-12"
-                      required
-                      type="tel"
-                      value={customerInfo.phone}
-                      onChange={(e) => setCustomerInfo({...customerInfo, phone: e.target.value})}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="checkout-address" className="text-xs font-black uppercase tracking-widest text-muted-foreground ml-1">Delivery Address</Label>
-                    <Textarea 
-                      id="checkout-address" 
-                      placeholder="Please provide your full delivery address or landmark" 
-                      className="rounded-xl min-h-[100px] resize-none p-4"
-                      required
-                      value={customerInfo.address}
-                      onChange={(e) => setCustomerInfo({...customerInfo, address: e.target.value})}
-                    />
-                  </div>
-                </div>
-              </form>
-            </ScrollArea>
-          )}
-
           {step === 'success' && (
-            <div className="h-full flex flex-col items-center justify-center p-8 text-center space-y-6">
-              <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center text-green-500 scale-110">
+            <div className="h-full flex flex-col items-center justify-center p-12 text-center space-y-10 animate-in fade-in zoom-in duration-700">
+              <div className="w-24 h-24 bg-primary/5 rounded-full flex items-center justify-center text-primary border border-primary/20">
                 <CheckCircle2 className="w-12 h-12" />
               </div>
-              <div className="space-y-2 px-4">
-                <h3 className="text-2xl font-black">Thank You!</h3>
-                <p className="text-muted-foreground text-sm">Your order has been sent to our team. We'll contact you shortly for delivery arrangements.</p>
+              <div className="space-y-4">
+                <h3 className="text-3xl font-serif italic">Thank You</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed max-w-xs mx-auto">
+                  Your celestial order has been received. We will contact you shortly to finalize your journey.
+                </p>
               </div>
-              <Button className="w-full rounded-xl h-12 font-bold shadow-lg" onClick={handleReset}>
+              <button className="button-sahara w-full" onClick={handleReset}>
                 Return to Shop
-              </Button>
+              </button>
             </div>
           )}
         </div>
 
-        {/* Footer - Dynamic Summary and Actions */}
+        {/* Footer */}
         {cartItems.length > 0 && step !== 'success' && (
-          <SheetFooter className="p-6 border-t flex-col gap-4 sm:flex-col bg-muted/5">
-            <div className="w-full space-y-3">
-              <div className="flex justify-between text-sm font-medium">
-                <span className="text-muted-foreground">Subtotal</span>
-                <span>GHC {totalPrice.toFixed(2)}</span>
+          <SheetFooter className="p-8 border-t border-border/10 flex-col gap-6 sm:flex-col bg-background/50 backdrop-blur-md">
+            <div className="w-full space-y-4">
+              <div className="flex justify-between text-[10px] uppercase tracking-widest font-bold text-muted-foreground">
+                <span>Subtotal</span>
+                <span>GH₵{totalPrice.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between text-sm font-medium">
-                <span className="text-muted-foreground">Delivery</span>
-                <span className="text-xs text-amber-600 font-bold bg-amber-50 px-2 py-0.5 rounded-full uppercase tracking-tighter">Contact for rates</span>
+              <div className="flex justify-between text-[10px] uppercase tracking-widest font-bold text-muted-foreground">
+                <span>Shipping</span>
+                <span className="text-primary italic">Complimentary</span>
               </div>
-              <Separator />
-              <div className="flex justify-between items-center pt-2">
-                <span className="text-lg font-black uppercase tracking-tighter">Total</span>
-                <span className="text-2xl font-black text-primary">GHC {totalPrice.toFixed(2)}</span>
+              <Separator className="bg-border/10" />
+              <div className="flex justify-between items-end pt-2">
+                <span className="text-sm font-serif uppercase tracking-[0.2em] italic">Total</span>
+                <span className="text-3xl font-serif font-light text-foreground">GH₵{totalPrice.toFixed(2)}</span>
               </div>
             </div>
 
-            <div className="w-full flex flex-col gap-3 pt-2">
-              {step === 'cart' ? (
-                <Button 
-                  className="w-full h-14 text-base font-black uppercase tracking-widest shadow-xl shadow-primary/20 gradient-warm border-none"
-                  onClick={() => setStep('details')}
+            <div className="w-full pt-4">
+               <button 
+                  className="button-sahara w-full py-6"
+                  onClick={() => setStep('success')}
                 >
-                  Proceed to Checkout
-                </Button>
-              ) : (
-                <>
-                  <Button 
-                    type="submit"
-                    form="checkout-form"
-                    disabled={isSubmitting}
-                    className="w-full h-14 text-base font-black uppercase tracking-widest shadow-xl shadow-primary/20 bg-primary hover:bg-primary/90 border-none"
-                  >
-                    {isSubmitting ? 'Sending Order...' : 'Confirm Order'}
-                  </Button>
-                  <Button 
-                    type="button"
-                    variant="ghost"
-                    className="w-full h-10 text-xs font-bold text-muted-foreground hover:text-primary transition-colors flex items-center justify-center gap-2"
-                    onClick={handleWhatsAppCheckout}
-                  >
-                    <Send className="w-3.5 h-3.5" />
-                    Or Place via WhatsApp
-                  </Button>
-                </>
-              )}
+                  Confirm Order
+                </button>
             </div>
           </SheetFooter>
         )}

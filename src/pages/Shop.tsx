@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { products } from '@/data/products';
 import SEO from '@/components/SEO';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
+import ProductCard from '@/components/ProductCard';
+import { ArrowRight } from 'lucide-react';
 
 const Shop = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const initialCategory = searchParams.get('category') || 'All';
+  // Deduplicate categories
   const categories = ['All', ...Array.from(new Set(products.map(p => p.category)))];
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
 
@@ -14,7 +17,7 @@ const Shop = () => {
     if (category === 'All') {
       setSearchParams(new URLSearchParams());
     } else {
-      setSearchParams({ category });
+      setSearchParams({ category: category });
     }
   };
 
@@ -24,83 +27,66 @@ const Shop = () => {
   });
 
   return (
-    <div className="bg-background min-h-screen flex flex-col">
+    <div className="bg-[#0f0f0f] min-h-screen flex flex-col pt-32">
       <SEO
-        title="Shop Collections | Axels"
-        description="Browse our premium range of handcrafted jewelry rings, necklaces, and earrings."
+        title="Collections | Sahara Jewellery"
+        description="Browse our premium range of handcrafted pieces inspired by the eternal sands."
         canonical="/shop"
       />
 
       {/* Header Area */}
-      <section className="py-20 px-8 text-center border-b border-border">
-        <h1 className="text-4xl sm:text-5xl font-serif text-foreground mb-6">Collections</h1>
-        <p className="text-muted-foreground text-sm max-w-lg mx-auto">
-          Explore our complete catalog of minimalist, beautifully crafted fine jewelry.
+      <section className="py-28 px-8 text-center bg-background relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 opacity-[0.02] whitespace-nowrap">
+          <span className="text-[clamp(8rem,25vw,35rem)] font-serif font-black uppercase leading-none select-none text-center tracking-tighter text-white">
+            SAHARA
+          </span>
+        </div>
+        <h1 className="text-5xl sm:text-8xl font-serif text-white mb-8 relative z-10 tracking-tight uppercase">The Edit</h1>
+        <p className="text-white/40 text-sm max-w-lg mx-auto relative z-10 font-sans tracking-[0.3em] font-extralight uppercase">
+          Curated elegance, inspired by the infinite horizon.
         </p>
       </section>
 
       {/* Filter Bar */}
-      <section className="border-b border-border py-4 px-8 sticky top-[80px] z-40 bg-background/90 backdrop-blur-md">
-        <div className="flex flex-wrap items-center justify-center gap-8">
+      <section className="py-12 px-8 sticky top-[70px] z-40 bg-[#0f0f0f]/95 backdrop-blur-md border-y border-white/5">
+        <div className="flex flex-wrap items-center justify-center gap-x-16 gap-y-8">
           {categories.map((category) => (
             <button
               key={category}
               onClick={() => handleCategoryClick(category)}
-              className={`text-[11px] uppercase tracking-widest font-medium transition-colors ${
+              className={`text-[10px] font-sans uppercase tracking-[0.5em] transition-all duration-500 relative group ${
                 selectedCategory.toLowerCase() === category.toLowerCase()
-                  ? 'text-primary border-b border-primary pb-1'
-                  : 'text-muted-foreground hover:text-foreground pb-1 border-b border-transparent'
+                  ? 'text-primary'
+                  : 'text-white/30 hover:text-white'
               }`}
             >
               {category}
+              <span className={`absolute -bottom-4 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary transition-all duration-500 ${
+                selectedCategory.toLowerCase() === category.toLowerCase() ? 'opacity-100 scale-100' : 'opacity-0 scale-0 group-hover:opacity-50 group-hover:scale-100'
+              }`} />
             </button>
           ))}
         </div>
       </section>
 
-      {/* Products Grid — 1 col mobile, 2 col tablet, 3 col desktop */}
-      <section className="flex-grow p-6 md:p-8 lg:p-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {filteredProducts.map((product) => {
-            const defaultVariant = (product.variants?.[0] || { price: 150 }) as any;
-            return (
-              <Link
-                key={product.id}
-                to={`/shop/${product.id}`}
-                className="group flex flex-col transition-all duration-300"
-              >
-                {/* Image — light gray bg, contain fit with padding */}
-                <div className="relative aspect-square overflow-hidden bg-[#F2F2F2] rounded-sm">
-                  <img
-                    src={product.image || "https://images.unsplash.com/photo-1599643478514-4fb651010362?q=80&w=1000&auto=format&fit=crop"}
-                    alt={product.name}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-full object-contain p-8 transition-transform duration-700 group-hover:scale-105"
-                  />
-                </div>
-
-                {/* Product Info — Centered text */}
-                <div className="py-6 text-center">
-                  <h3 className="text-sm font-bold text-foreground mb-1 group-hover:text-primary transition-colors">
-                    {product.name}
-                  </h3>
-                  <span className="text-sm text-foreground/60">${defaultVariant.price.toFixed(2)}</span>
-                </div>
-              </Link>
-            );
-          })}
+      {/* Products Grid - The Museum Gallery */}
+      <section className="flex-grow px-8 md:px-24 lg:px-32 py-32">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-24 gap-y-40">
+          {filteredProducts.map((product, idx) => (
+             <ProductCard key={product.id} product={product as any} index={idx} />
+          ))}
         </div>
 
         {filteredProducts.length === 0 && (
           <div className="text-center py-32">
-            <h3 className="text-2xl font-serif text-foreground mb-4">No pieces found</h3>
-            <p className="text-muted-foreground text-sm mb-8 px-8">We couldn't find any jewelry matching this category.</p>
+            <h3 className="text-3xl font-serif text-white mb-4 italic uppercase tracking-widest">No pieces found</h3>
+            <p className="text-white/30 text-[10px] font-sans uppercase tracking-[0.2em] mb-12 px-8">We couldn't find any jewelry matching this category.</p>
             <button
-              className="border-b border-foreground text-[10px] uppercase tracking-widest font-medium pb-1 hover:text-primary hover:border-primary transition-colors"
+              className="button-sahara mx-auto group"
               onClick={() => handleCategoryClick('All')}
             >
-              View All Collections
+              <span>View All Pieces</span>
+              <ArrowRight className="w-4 h-4 translate-y-[1px] group-hover:translate-x-3 transition-transform duration-500" />
             </button>
           </div>
         )}
